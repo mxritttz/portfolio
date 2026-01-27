@@ -25,25 +25,14 @@ export const CardContainer = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
-  const rafRef = useRef<number | null>(null);
-
   // No mouse-move tilt; keep hover motion fixed and subtle.
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMouseEntered(true);
-    if (!containerRef.current) return;
-    containerRef.current.style.transform =
-      "translateY(-6px) rotateY(2deg) rotateX(-2deg)";
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
     setIsMouseEntered(false);
-    containerRef.current.style.transform = `translateY(0px) rotateY(0deg) rotateX(0deg)`;
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
   };
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
@@ -61,7 +50,7 @@ export const CardContainer = ({
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            "flex items-center justify-center relative transition-transform duration-300 ease-out",
+            "flex items-center justify-center relative transition-transform duration-700 ease-out hover:[transform:translateY(-2px)_rotateY(0.4deg)_rotateX(-0.4deg)]",
             className
           )}
           style={{
