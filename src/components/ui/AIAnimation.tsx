@@ -8,8 +8,7 @@ export default function AIAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/AIAnimation.mp4"
+      <video preload="metadata" src="/AIAnimation.mp4"
         autoPlay
         loop
         muted

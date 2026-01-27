@@ -8,8 +8,7 @@ export default function SocialAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/SocialAnimation.mp4"
+      <video preload="metadata" src="/SocialAnimation.mp4"
         autoPlay
         loop
         muted

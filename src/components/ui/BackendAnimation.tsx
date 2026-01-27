@@ -8,8 +8,7 @@ export default function BackendAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/BackendAnimation.mp4"
+      <video preload="metadata" src="/BackendAnimation.mp4"
         autoPlay
         loop
         muted

@@ -8,8 +8,7 @@ export default function EComAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/EComAnimation.mp4"
+      <video preload="metadata" src="/EComAnimation.mp4"
         autoPlay
         loop
         muted

@@ -8,8 +8,7 @@ export default function MusicAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/MusicAnimation.mp4"
+      <video preload="metadata" src="/MusicAnimation.mp4"
         autoPlay
         loop
         muted

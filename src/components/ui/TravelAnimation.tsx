@@ -8,8 +8,7 @@ export default function TravelAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/TravelAnimation.mp4"
+      <video preload="metadata" src="/TravelAnimation.mp4"
         autoPlay
         loop
         muted

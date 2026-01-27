@@ -8,8 +8,7 @@ export default function FrontendAnimation() {
   return (
     <motion.div
     >
-      <video
-        src="/FrontendAnimation.mp4"
+      <video preload="metadata" src="/FrontendAnimation.mp4"
         autoPlay
         loop
         muted

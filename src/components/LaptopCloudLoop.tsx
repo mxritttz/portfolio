@@ -19,8 +19,7 @@ export default function LaptopCloudLoop() {
         ease: "easeInOut",
       }}
     >
-      <video
-        src="/1204.mov"
+      <video preload="metadata" src="/1204.mov"
         autoPlay
         loop
         muted
