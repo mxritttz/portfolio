@@ -85,6 +85,9 @@ export function AboutMe() {
               description={item.description}
               header={item.header}
               className={cn("[&>p:text-lg]", item.className)}
+              containerClassName={item.containerClassName}
+              headerClassName={item.headerClassName}
+              contentClassName={item.contentClassName}
               icon={item.icon}
             />
           ))}
@@ -465,7 +468,7 @@ const items = [
     className: "md:col-span-1",
    // icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
   },
-    {
+  {
    /*  title: "Text Summarization",
     description: (
       <span className="text-sm">
@@ -474,6 +477,8 @@ const items = [
     ), */
     header: <SkeletonFive2 />,
     className: "md:col-span-1 md:h-full",
+    containerClassName:
+      "bg-black/35 dark:bg-black/45 border-4 border-neutral-200/50 dark:border-white/10 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.35)]",
    // icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
   },
   {
@@ -485,6 +490,10 @@ const items = [
     ), */
     header: <SkeletonFour />,
     className: "md:col-span-2",
+    containerClassName:
+      "bg-black/35 dark:bg-black/45 border-4 border-neutral-200/50 dark:border-white/10 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.35)] p-0 overflow-hidden",
+    headerClassName: "h-full mb-0",
+    contentClassName: "hidden",
    // icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
   },
 ];

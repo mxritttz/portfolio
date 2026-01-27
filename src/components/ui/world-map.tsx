@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import DottedMap from "dotted-map";
 
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 interface MapProps {
   dots?: Array<{
@@ -12,11 +13,13 @@ interface MapProps {
     end: { lat: number; lng: number; label?: string };
   }>;
   lineColor?: string;
+  className?: string;
 }
 
 export default function WorldMap({
   dots = [],
   lineColor = "#0ea5e9",
+  className,
 }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const map = new DottedMap({ height: 100, grid: "diagonal" });
@@ -24,11 +27,11 @@ export default function WorldMap({
   const { theme } = useTheme();
 
   const svgMap = map.getSVG({
-    radius: 0.22,
-    color: theme === "dark" ? "#FFFFFF40" : "#FFFFFF40",
+    radius: 0.28,
+    color: theme === "dark" ? "#FFFFFFCC" : "#0F172ACC",
     // color: theme === "dark" ? "#FFFFFF40" : "#00000040",
     shape: "circle",
-    backgroundColor: theme === "dark" ? "black" : "black",
+    backgroundColor: "transparent",
     // backgroundColor: theme === "dark" ? "black" : "white",
   });
 
@@ -48,10 +51,18 @@ export default function WorldMap({
   };
 
   return (
-    <div className="w-full aspect-[3.5/1] dark:bg-black bg-white rounded-lg  relative font-sans">
+    <div
+      className={cn(
+        "w-full h-full bg-transparent rounded-lg relative font-sans overflow-hidden",
+        className
+      )}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 dark:to-white/5 pointer-events-none" />
       <img
+        loading="lazy"
+        decoding="async"
         src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
-        className="h-full w-full [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"
+        className="h-full w-full pointer-events-none select-none opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.25)]"
         alt="world map"
         height="495"
         width="1056"

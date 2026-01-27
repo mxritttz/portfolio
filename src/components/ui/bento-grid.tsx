@@ -10,7 +10,7 @@ export const BentoGrid = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <div className={cn("mx-auto grid max-w-7xl grid-cols-1 gap-6 md:auto-rows-[20rem] md:grid-cols-3", className)}>
+    <div className={cn("mx-auto grid max-w-7xl grid-cols-1 gap-6 bg-transparent md:auto-rows-[20rem] md:grid-cols-3", className)}>
       {children}
     </div>
   );
@@ -18,12 +18,18 @@ export const BentoGrid = ({
 
 export const BentoGridItem = ({
   className,
+  containerClassName,
+  headerClassName,
+  contentClassName,
   title,
   description,
   header,
   icon,
 }: {
   className?: string;
+  containerClassName?: string;
+  headerClassName?: string;
+  contentClassName?: string;
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
   header?: React.ReactNode;
@@ -32,7 +38,7 @@ export const BentoGridItem = ({
   return (
     <div
       className={cn(
-        "group relative rounded-2xl overflow-visible",
+        "group relative rounded-2xl overflow-visible pb-4",
         "transition-all duration-600 ease-out",
         "hover:-translate-y-6 hover:shadow-4xl",  
         className
@@ -58,12 +64,18 @@ export const BentoGridItem = ({
             "bg-white/95 dark:bg-black backdrop-blur-sm",
             "border-4 border-neutral-200/50 dark:border-white/10",
             "p-6 shadow-xl",
-            "flex flex-col justify-between"
+            "flex flex-col justify-between",
+            containerClassName
           )}
         >
-          {header && <div className="mb-6">{header}</div>}
+          {header && <div className={cn("mb-6", headerClassName)}>{header}</div>}
 
-          <div className="transition-transform duration-500 group-hover/bento:translate-x-3">
+          <div
+            className={cn(
+              "transition-transform duration-500 group-hover/bento:translate-x-3",
+              contentClassName
+            )}
+          >
             {icon && <div className="mb-4">{icon}</div>}
             <h3 className="mb-2 text-xl font-bold text-neutral-800 dark:text-neutral-50">
               {title}
