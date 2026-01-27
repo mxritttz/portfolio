@@ -867,7 +867,7 @@ export function Projects() {
   const [gridVisible, setGridVisible] = useState(true);
 
   return (
-    <div className="w-full h-full flex flex-col gap-5 bg-gray-100 dark:bg-red-900 overflow-hidden relative">
+    <div className="w-full h-full flex flex-col gap-5 bg-gray-100 dark:bg-red-900 overflow-visible relative">
       <AnimatePresence mode="wait">
         {gridVisible && !selectedProject && (
           <motion.div
@@ -879,7 +879,7 @@ export function Projects() {
             className="flex-1 flex flex-col"
           >
             {/* CATEGORY SELECTOR */}
-            <div className="flex items-center justify-center p-4">
+            <div className="flex items-center justify-center p-4 relative z-10">
               <div className="flex bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-3xl p-2 overflow-x-auto">
                 {CATEGORIES.map((category) => (
                   <button
@@ -900,7 +900,7 @@ export function Projects() {
 
             {/* PROJECT CARDS */}
             <div className="flex-1 relative">
-              <div className="flex gap-8 overflow-x-scroll snap-x snap-mandatory pb-10 pt-4 h-full scrollbar-none">
+              <div className="flex gap-8 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-10 pt-4 h-full items-end scrollbar-none relative z-20">
                 {PROJECTS[active].map((p, i) => (
                   <motion.div
                     key={i}
