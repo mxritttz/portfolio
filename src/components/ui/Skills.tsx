@@ -40,9 +40,24 @@ const sticky = [
         </p>
         <SkillBars
           skills={[
-            { name: "Use of GenAI for Ideation & Efficiency", level: 85 }, 
-            { name: "AI Tools for Media Creation (Sora/Firefly)", level: 75 },
-            { name: "Product Strategy & Mapping", level: 70 },
+            {
+              name: "Use of GenAI for Ideation & Efficiency",
+              level: 85,
+              experience: "2+ years experience",
+              tag: "Expert",
+            },
+            {
+              name: "AI Tools for Media Creation (Sora/Firefly)",
+              level: 75,
+              experience: "2+ years experience",
+              tag: "Advanced",
+            },
+            {
+              name: "Product Strategy & Mapping",
+              level: 70,
+              experience: "1+ year experience",
+              tag: "Advanced",
+            },
           ]}
         />
       </div>
@@ -67,10 +82,30 @@ const sticky = [
         </p>
         <SkillBars
           skills={[
-            { name: "Next.js / React / TypeScript", level: 90 },
-            { name: "HTML / CSS / Angular (Proficiency)", level: 80 },
-            { name: "LLM/API Integration", level: 75 },
-            { name: "Motion Design (Framer Motion)", level: 75 },
+            {
+              name: "Next.js / React / TypeScript",
+              level: 90,
+              experience: "3+ years experience",
+              tag: "Expert",
+            },
+            {
+              name: "HTML / CSS / Angular (Proficiency)",
+              level: 80,
+              experience: "3+ years experience",
+              tag: "Advanced",
+            },
+            {
+              name: "LLM/API Integration",
+              level: 75,
+              experience: "1+ year experience",
+              tag: "Advanced",
+            },
+            {
+              name: "Motion Design (Framer Motion)",
+              level: 75,
+              experience: "2+ years experience",
+              tag: "Advanced",
+            },
           ]}
         />
       </div>
@@ -96,9 +131,24 @@ const sticky = [
         </p>
         <SkillBars
           skills={[
-            { name: "Node.js / Serverless (APIs)", level: 80 },
-            { name: "Databases (SQL/NoSQL)", level: 75 },
-            { name: "Git / Docker / Deployment", level: 65 },
+            {
+              name: "Node.js / Serverless (APIs)",
+              level: 80,
+              experience: "2+ years experience",
+              tag: "Advanced",
+            },
+            {
+              name: "Databases (SQL/NoSQL)",
+              level: 75,
+              experience: "2+ years experience",
+              tag: "Advanced",
+            },
+            {
+              name: "Git / Docker / Deployment",
+              level: 65,
+              experience: "2+ years experience",
+              tag: "Intermediate",
+            },
           ]}
         />
       </div>
@@ -123,9 +173,24 @@ const sticky = [
         </p>
         <SkillBars
           skills={[
-            { name: "Video Editing (CapCut / Final Cut Pro)", level: 90 }, 
-            { name: "Content Strategy & Filming", level: 85 },
-            { name: "Social Media Optimization", level: 80 },
+            {
+              name: "Video Editing (CapCut / Final Cut Pro)",
+              level: 90,
+              experience: "3+ years experience",
+              tag: "Expert",
+            },
+            {
+              name: "Content Strategy & Filming",
+              level: 85,
+              experience: "2+ years experience",
+              tag: "Advanced",
+            },
+            {
+              name: "Social Media Optimization",
+              level: 80,
+              experience: "2+ years experience",
+              tag: "Advanced",
+            },
           ]}
         />
       </div>
@@ -150,9 +215,24 @@ const sticky = [
         </p>
         <SkillBars
           skills={[
-            { name: "Custom Shopify Stores / Liquid", level: 60 },
-            { name: "Print-on-Demand & Fulfillment", level: 55 },
-            { name: "Digital Marketing Basics", level: 60 },
+            {
+              name: "Custom Shopify Stores / Liquid",
+              level: 60,
+              experience: "1+ year experience",
+              tag: "Intermediate",
+            },
+            {
+              name: "Print-on-Demand & Fulfillment",
+              level: 55,
+              experience: "1+ year experience",
+              tag: "Beginner",
+            },
+            {
+              name: "Digital Marketing Basics",
+              level: 60,
+              experience: "1+ year experience",
+              tag: "Intermediate",
+            },
           ]}
         />
       </div>
@@ -177,8 +257,18 @@ const sticky = [
         </p>
         <SkillBars
           skills={[
-            { name: "Music Production (Logic Pro)", level: 50 },
-            { name: "Basic Mixing & Sound Design", level: 45 },
+            {
+              name: "Music Production (Logic Pro)",
+              level: 50,
+              experience: "1+ year experience",
+              tag: "Beginner",
+            },
+            {
+              name: "Basic Mixing & Sound Design",
+              level: 45,
+              experience: "1+ year experience",
+              tag: "Beginner",
+            },
           ]}
         />
       </div>
@@ -225,4 +315,3 @@ export function Skills() {
     </section>
   );
 }
-
