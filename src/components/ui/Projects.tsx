@@ -771,11 +771,18 @@ function ProjectCard({ project, onClick }: any) {
   if (project.type === "comet") {
     return (
       <CometCard>
-        <div onClick={onClick} className={`${baseClass} w-[20vw] sm:w-[20vw] h-[45vh] bg-[#1F2121] p-3 rounded-3xl flex flex-col`}>
-          <div className="relative flex-1">
-            <img src={project.image} className="absolute inset-0 h-full w-full rounded-2xl object-cover" />
+        <div
+          onClick={onClick}
+          className={`${baseClass} w-[19vw] sm:w-[17vw] h-[42vh] bg-[#141516] p-4 rounded-[2.2rem] flex flex-col gap-3 shadow-[0_20px_50px_rgba(0,0,0,0.35)] border border-white/5`}
+        >
+          <div className="relative flex-1 rounded-2xl overflow-hidden border border-white/10">
+            <img src={project.image} className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/40" />
           </div>
-          <div className="p-4 text-white text-sm font-mono opacity-90">{project.title}</div>
+
+          <div className="px-1 text-white text-sm font-mono opacity-90">
+            {project.title}
+          </div>
         </div>
       </CometCard>
     );
@@ -867,7 +874,18 @@ export function Projects() {
   const [gridVisible, setGridVisible] = useState(true);
 
   return (
-    <div className="w-full h-full flex flex-col gap-5 bg-gray-100 dark:bg-red-900 overflow-visible relative">
+    <div className="w-full h-full flex flex-col gap-5 bg-gradient-to-b from-neutral-100 via-neutral-100 to-neutral-200 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950 overflow-visible relative">
+      {/* iPad-like status bar */}
+      <div className="absolute top-0 inset-x-0 z-30 h-10 px-4 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-300 pointer-events-none">
+        <span>9:41</span>
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-4 rounded-full bg-neutral-400/70 dark:bg-neutral-500/70" />
+          <span className="h-1.5 w-3 rounded-full bg-neutral-400/60 dark:bg-neutral-500/60" />
+          <span className="h-1.5 w-2 rounded-full bg-neutral-400/50 dark:bg-neutral-500/50" />
+        </div>
+      </div>
+      {/* subtle vignette */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.6),transparent_45%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.6),transparent_45%)]" />
       <AnimatePresence mode="wait">
         {gridVisible && !selectedProject && (
           <motion.div
@@ -876,7 +894,7 @@ export function Projects() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ duration: 0.5 }}
-            className="flex-1 flex flex-col"
+            className="flex-1 flex flex-col pt-8"
           >
             {/* CATEGORY SELECTOR */}
             <div className="flex items-center justify-center p-4 relative z-10">
@@ -900,7 +918,7 @@ export function Projects() {
 
             {/* PROJECT CARDS */}
             <div className="flex-1 relative">
-              <div className="flex gap-8 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-10 pt-4 h-full items-end scrollbar-none relative z-20">
+              <div className="flex gap-6 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-28 pt-4 h-full items-end scrollbar-none relative z-20">
                 {PROJECTS[active].map((p, i) => (
                   <motion.div
                     key={i}
@@ -933,6 +951,14 @@ export function Projects() {
           />
         )}
       </AnimatePresence>
+      {/* iPad-like dock */}
+      <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 h-14 w-[72%] rounded-2xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.12)] flex items-center justify-center gap-4 z-30">
+        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_8px_16px_rgba(56,189,248,0.35)]" />
+        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-fuchsia-400 to-pink-500 shadow-[0_8px_16px_rgba(236,72,153,0.35)]" />
+        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-purple-400 to-indigo-500 shadow-[0_8px_16px_rgba(139,92,246,0.35)]" />
+        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 shadow-[0_8px_16px_rgba(16,185,129,0.35)]" />
+        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-[0_8px_16px_rgba(245,158,11,0.35)]" />
+      </div>
     </div>
   );
 }
