@@ -59,7 +59,7 @@ export function AboutMe() {
       <div
         className="
           absolute inset-x-0
-          bottom-[-35vh]
+          bottom-[-45vh]
           h-[60vh]
           z-0
           pointer-events-none

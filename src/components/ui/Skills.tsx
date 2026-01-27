@@ -285,7 +285,7 @@ const sticky = [
 
 export function Skills() {
   return (
-    <section className="h-full w-full flex flex-col pt-10">
+    <section className="h-full w-full flex flex-col pt-20">
 
         <div className="sticky top-4 z-50 bg-black/70 backdrop-blur-xl rounded-3xl mx-4 md:mx-20 py-6 flex flex-col items-center text-center shadow-lg border-4 border-white/10">
   {/* Main Heading with Gradient */}
