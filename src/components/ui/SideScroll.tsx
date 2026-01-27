@@ -108,7 +108,7 @@ export const SideScroll = () => {
           </motion.p>
           <motion.div
             style={{ opacity: formOpacity, y: formY }}
-            className="absolute left-1/2 top-40 w-[min(92vw,980px)] -translate-x-1/2"
+            className="absolute left-1/2 top-48 w-[min(96vw,1240px)] -translate-x-1/2"
           >
             <ContactForm />
           </motion.div>
