@@ -102,14 +102,16 @@ export default function Home() {
         <ContactForm />
       </section>
 
+      <section id="side-scroll" className="relative w-full">
+        <SideScroll />
+      </section>
+
       <section id="iphone" className="relative flex min-h-screen items-center justify-center">
         <IPhone />
         <TravelAnimation />
       </section>
 
-      <section id="side-scroll" className="relative flex min-h-screen max-w-screen items-center justify-center">
-        <SideScroll />
-      </section>
+      
 
   </div>
 
