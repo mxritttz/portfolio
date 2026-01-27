@@ -52,14 +52,17 @@ const images = [
 "https://site.interns.school/wp-content/uploads/2024/08/Frame-51-3.png",
 ]
 
-const IPadHeading=  <>
-            <h1 className="text-6xl font-semibold text-black dark:text-white">
-              Here you can find some of my<br />
-              <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                Projects
-              </span>
-            </h1>
-          </>
+const IPadHeading = (
+  <>
+    <h1 className="text-5xl md:text-6xl font-extrabold text-black dark:text-white leading-tight">
+      Discover some of my
+      <br />
+      <span className="text-4xl md:text-[6rem] font-black mt-1 leading-none bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-purple-400 drop-shadow-[0_10px_30px_rgba(56,189,248,0.35)]">
+        Projects
+      </span>
+    </h1>
+  </>
+);
 
 export default function Home() {
   return (
