@@ -48,11 +48,11 @@ export const BentoGridItem = ({
         <GlowingEffect
           blur={0}
           borderWidth={2}
-          spread={50}
+          spread={100}
           glow={true}
           disabled={false}
           variant={"default"}
-          proximity={200}
+          proximity={380}
           inactiveZone={0.01}
           className="rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-700"
         />
