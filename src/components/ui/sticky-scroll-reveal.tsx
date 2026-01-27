@@ -4,9 +4,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
-export const StickyScroll = ({ content, contentClassName }) => {
+export const StickyScroll = ({
+  content,
+  contentClassName,
+  className,
+  sectionClassName,
+  textClassName,
+}) => {
   const [activeCard, setActiveCard] = useState(0);
+  const [isActive, setIsActive] = useState(false);
   const containerRef = useRef<any>(null);
+  const isLockedRef = useRef(false);
+  const canLockRef = useRef(true);
+  const lastScrollTopRef = useRef(0);
+  const lastLockAtRef = useRef(0);
 
   const gradients = [
     "linear-gradient(to bottom right, #06b6d4, #10b981)",
@@ -38,34 +49,113 @@ export const StickyScroll = ({ content, contentClassName }) => {
     if (!containerRef.current) return;
     const sections = containerRef.current.querySelectorAll("section");
     const scrollTop = containerRef.current.scrollTop;
+    const containerHeight = containerRef.current.clientHeight;
+    const center = scrollTop + containerHeight / 2;
     let currentIndex = 0;
+    let minDistance = Number.POSITIVE_INFINITY;
 
     sections.forEach((section: any, idx: number) => {
-      if (scrollTop >= section.offsetTop - section.clientHeight / 2) {
+      const sectionCenter = section.offsetTop + section.clientHeight / 2;
+      const distance = Math.abs(center - sectionCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
         currentIndex = idx;
       }
     });
 
     setActiveCard(currentIndex);
+    lastScrollTopRef.current = scrollTop;
   };
+
+  useEffect(() => {
+    const handleWindowScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const elementCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(elementCenter - viewportCenter);
+      const threshold = window.innerHeight * 0.16;
+      const intersectsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+
+      const isOutOfView = rect.bottom < 0 || rect.top > window.innerHeight;
+      if (isOutOfView) {
+        canLockRef.current = true;
+        if (isLockedRef.current) {
+          isLockedRef.current = false;
+          setIsActive(false);
+        }
+        return;
+      }
+
+      if (!canLockRef.current && distance > threshold * 1.8) {
+        canLockRef.current = true;
+      }
+
+      const now = Date.now();
+      if (
+        canLockRef.current &&
+        !isLockedRef.current &&
+        intersectsCenter &&
+        distance <= threshold &&
+        now - lastLockAtRef.current > 700
+      ) {
+        isLockedRef.current = true;
+        setIsActive(true);
+        lastLockAtRef.current = now;
+        const target =
+          window.scrollY +
+          rect.top -
+          (window.innerHeight / 2 - rect.height / 2);
+        window.scrollTo({ top: target, behavior: "smooth" });
+      }
+    };
+
+    handleWindowScroll();
+    window.addEventListener("scroll", handleWindowScroll, { passive: true });
+    window.addEventListener("resize", handleWindowScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleWindowScroll);
+      window.removeEventListener("resize", handleWindowScroll);
+    };
+  }, []);
 
   return (
     <div
       ref={containerRef}
       onScroll={handleScroll}
+      onWheel={(e) => {
+        if (!containerRef.current || !isLockedRef.current) return;
+        const el = containerRef.current;
+        const atTop = el.scrollTop <= 0;
+        const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+        if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) {
+          isLockedRef.current = false;
+          canLockRef.current = false;
+          setIsActive(false);
+        }
+      }}
       className={cn(
-        "relative w-full h-screen overflow-y-scroll snap-y snap-mandatory"
+        "relative w-full h-screen snap-y snap-mandatory",
+        isActive ? "overflow-y-scroll" : "overflow-y-hidden"
+        ,className
       )}
     >
       {content.map((item, idx) => (
         <section
           key={idx}
           className={cn(
-            "relative h-screen w-full flex justify-between items-center px-10 md:px-20 lg:px-28 snap-center"
+            "relative h-screen w-full flex justify-between items-center px-10 md:px-20 lg:px-28 snap-center",
+            sectionClassName
           )}
         >
           {/* LEFT SIDE SCROLLING TEXT */}
-          <div className="w-[70%] flex flex-col justify-center h-full">
+          <div
+            className={cn(
+              "w-[70%] flex flex-col justify-center h-full",
+              textClassName
+            )}
+          >
             <div className="flex flex-col justify-center h-full">
               <AnimatePresence mode="wait">
                 {activeCard === idx && (

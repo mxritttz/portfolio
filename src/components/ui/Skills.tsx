@@ -308,7 +308,8 @@ export function Skills() {
       <div className="flex-1 w-full">
         <StickyScroll
           content={sticky}
-          className="h-full w-full"
+          className="h-screen w-full"
+          textClassName="pt-24"
         />
       </div>
 
