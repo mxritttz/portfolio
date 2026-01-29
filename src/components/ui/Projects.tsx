@@ -125,16 +125,6 @@ const PROJECTS: Record<string, any[]> = {
                 transition={{ duration: 0.3 }}
                 className="relative h-full w-full"
               >
-                {/* Back Button */}
-                <button
-                  onClick={() => setShowApp(false)}
-                  className="absolute top-4 left-4 z-50 px-4 py-2 rounded-xl
-                             bg-black/60 text-white backdrop-blur
-                             hover:bg-black/80 transition"
-                >
-                  ← Back
-                </button>
-
                 <TradingApp />
               </motion.div>
             )}
@@ -828,7 +818,10 @@ function ProjectDetail({ project, onBack }: any) {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -50, opacity: 0 }}
         transition={{ duration: 0.4 }}
-        className="self-start px-4 py-2 bg-black dark:bg-white dark:text-black text-white rounded-xl font-semibold hover:scale-105 transition"
+        className="self-start px-4 py-2 rounded-xl font-semibold text-white
+                   bg-white/10 border border-white/30 backdrop-blur-xl
+                   shadow-[0_10px_30px_rgba(0,0,0,0.35)] hover:bg-white/20
+                   hover:scale-105 transition"
       >
         ← Back
       </motion.button>
