@@ -1,25 +1,22 @@
 
 "use client";
 
-import React, { useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
-import { ArrowRight } from "lucide-react"; 
-import {
-  motion,
-  animate,
-  useMotionValue,
-  useMotionTemplate,
-} from "framer-motion";
-import { GlowingHeading } from "./ui/GlowingHeading";
-import { TextGenerateEffect } from "./ui/text-generate-effect";
-import { TypewriterEffect } from "./ui/typewriter-effect";
-import { text } from "stream/consumers";
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { ArrowRight } from "lucide-react";
+import { motion, animate, useMotionValue, useMotionTemplate } from "framer-motion";
+import AuroraHeroClient from "./AuroraHeroClient";
+
+const TypewriterEffect = dynamic(
+  () => import("./ui/typewriter-effect").then((m) => m.TypewriterEffect),
+  { ssr: false }
+);
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"] as string[];
 export const AuroraHero = () => {
   // ← Kein <ColorType> und kein as const mehr nötig
   const color = useMotionValue(COLORS_TOP[0]);
+  const [showTypewriter, setShowTypewriter] = useState(false);
 
   useEffect(() => {
     const animation = animate(color, COLORS_TOP, {
@@ -31,6 +28,11 @@ export const AuroraHero = () => {
 
     return () => animation.stop(); // Cleanup
   }, [color]);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShowTypewriter(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const backgroundImage = useMotionTemplate`
     radial-gradient(ellipse 200% 90% at 50% 0%, ${color} 0%, transparent 45%),
@@ -56,7 +58,21 @@ export const AuroraHero = () => {
           Moritz Renner
         </h1>
 
-        <TypewriterEffect words={[{ text: "Full Stack Developer aus Deutschland – Next.js · TypeScript · Node.js · React · Tailwind", className: "text-center md:text-left" }]} />
+        {showTypewriter ? (
+          <TypewriterEffect
+            words={[
+              {
+                text:
+                  "Full Stack Developer aus Deutschland – Next.js · TypeScript · Node.js · React · Tailwind",
+                className: "text-center md:text-left",
+              },
+            ]}
+          />
+        ) : (
+          <div className="font-semibold text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+            Full Stack Developer aus Deutschland – Next.js · TypeScript · Node.js · React · Tailwind
+          </div>
+        )}
 
 
         <motion.button
@@ -70,18 +86,9 @@ export const AuroraHero = () => {
         </motion.button>
       </div>
 
-      {/* 3D Stars */}
+      {/* 3D Stars (lazy) */}
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 1] }}>
-          <Stars
-            radius={50}
-            count={3000}
-            factor={4}
-            saturation={0}
-            fade
-            speed={2}
-          />
-        </Canvas>
+        <AuroraHeroClient />
       </div>
     </motion.section>
   );

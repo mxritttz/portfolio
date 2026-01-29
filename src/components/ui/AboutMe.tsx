@@ -16,40 +16,13 @@ import { GlowingHeading } from "./GlowingHeading";
 import IPhone from "./iPhone";
 import Link from "next/link";
 import { ThreeDMarquee } from "./3d-marquee";
+import { marqueeImages } from "@/lib/marquee-images";
 
 
  
 
 
-const images = [
-"https://miro.medium.com/0*dCkBR3Q3lkGMKeAh.png",
-"https://miro.medium.com/0*dCkBR3Q3lkGMKeAh.png",
-"https://miro.medium.com/0*dCkBR3Q3lkGMKeAh.png",
-"https://miro.medium.com/0*dCkBR3Q3lkGMKeAh.png", //next.js
-"https://images.seeklogo.com/logo-png/33/1/open-ai-logo-png_seeklogo-332714.png", //openai
-"https://www.doabledanny.com/static/c74778d67b3c3d3419cf86b755b32b06/ee604/feature.png", //react
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0tRZikZb4WdnDGIffbT9nnwZp2rl9Ib6LJA&s",
-"https://www.clipartmax.com/png/middle/146-1469937_background-kubernetes-logo.png",
-"https://miro.medium.com/0*dCkBR3Q3lkGMKeAh.png", //next.js
-"https://img.icons8.com/ios_filled/200/FFFFFF/notion.png", //notion
-"https://site.interns.school/wp-content/uploads/2024/08/Frame-51-3.png", //tailwind
-"https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102017/logo_0.png?17TK91b1B6OvV2MFrCLfukw1c8oEaNr6&itok=vsanFiUj", //AWS
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHK-i2VzKvruC7yhkfmkuyjbeZdfOcA8lQJA&s", //docker
-"https://www.softwebsolutions.com/wp-content/uploads/2023/07/Kubernetes.webp", //kubernetes
-"https://cdn-icons-png.flaticon.com/512/5968/5968286.png", //python
-"https://miro.medium.com/1*0f4dvSifVihCIgWtXuBXnQ.png", //GraphQL
-"https://www.pikpng.com/pngl/b/493-4938064_logic-pro-x-on-the-mac-app-store.png",
-"https://www.softwebsolutions.com/wp-content/uploads/2023/07/Kubernetes.webp",
-"https://www.pikpng.com/pngl/b/493-4938064_logic-pro-x-on-the-mac-app-store.png",
-"https://miro.medium.com/1*0f4dvSifVihCIgWtXuBXnQ.png",
-"https://i.pinimg.com/736x/80/0f/31/800f31dcd38e0b6129d6490d5df7df2c.jpg",//capcut
-"https://www.pikpng.com/pngl/b/493-4938064_logic-pro-x-on-the-mac-app-store.png", //logic pro
-"https://www.shutterstock.com/image-illustration/adobe-firefly-logo-on-white-600nw-2307187773.jpg", //firefly
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0tRZikZb4WdnDGIffbT9nnwZp2rl9Ib6LJA&s",
-"https://www.shutterstock.com/image-illustration/adobe-firefly-logo-on-white-600nw-2307187773.jpg", //firefly
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0tRZikZb4WdnDGIffbT9nnwZp2rl9Ib6LJA&s",
-"https://site.interns.school/wp-content/uploads/2024/08/Frame-51-3.png",
-]
+const images = marqueeImages;
  
 export function AboutMe() {
   return (
