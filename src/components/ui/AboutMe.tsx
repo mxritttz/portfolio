@@ -69,13 +69,17 @@ const SkeletonOne = () => {
   return (
     // Das ist alles. Nur ein div mit voller Höhe + Video drin
     <div className="w-full h-full relative overflow-hidden rounded-2xl">
-      <video preload="metadata" src="/LaptopLoop.webm"
+      <video
+        preload="metadata"
         autoPlay
         loop
         muted
         playsInline
         className="w-full h-full object-cover rounded-2xl"
-      />
+      >
+        <source src="/LaptopLoop.webm" type="video/webm" />
+        <source src="/LaptopLoop.mp4" type="video/mp4" />
+      </video>
     </div>
   );
 };

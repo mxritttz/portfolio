@@ -28,7 +28,7 @@ const PROJECTS: Record<string, any[]> = {
    {
   type: "comet",
   title: "OINK-Trading",
-  image: "/TradingPreview.jpg",
+  image: "/images/OINK.png",
   description:
     "A futuristic trading app for your crypto assets. Smooth UI and advanced analytics.",
   customContent: (() => {
@@ -142,7 +142,7 @@ const PROJECTS: Record<string, any[]> = {
     {
   type: "comet",
   title: "ChatApp-Messanger",
-  image: "/MessangerPreview.jpg",
+  image: "/images/ChatApp.png",
   description: "A sleek messaging app with full emoji support and privacy-first design.",
   customContent: (
     <div className="relative h-full w-full text-white p-6 space-y-10
@@ -248,7 +248,7 @@ const PROJECTS: Record<string, any[]> = {
     {
       type: "comet",
       title: "MyOwnRAG",
-      image: "/RAGCover.jpg",
+      image: "/images/RAG.png",
       description: "Classic Retrieval-Augmented Generation that connects uploaded PDFs with OpenAIs ChatGPT.",
       customContent: (
   <div className="relative flex flex-col h-full w-full overflow-y-auto text-white p-6 space-y-6
@@ -328,7 +328,7 @@ const PROJECTS: Record<string, any[]> = {
     {
       type: "comet",
       title: "Meet",
-      image: "/MeetCover.jpg",
+      image: "/images/Meet.png",
       description: "Simple software that lets users find and join groups for different activities.",
       customContent: (
   <div className="relative flex flex-col h-full w-full overflow-y-auto text-white p-6 space-y-6
@@ -413,7 +413,7 @@ const PROJECTS: Record<string, any[]> = {
     {
   type: "comet",
   title: "Decision Helper",
-  image: "/DHCover.jpg",
+  image: "/images/DecisionHelper.png",
   description: "Modern portfolio website template.",
   customContent: (() => {
     const DecisionHelperWrapper = () => {

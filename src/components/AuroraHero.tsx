@@ -70,7 +70,7 @@ export const AuroraHero = () => {
           />
         ) : (
           <div className="font-semibold text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-            Full Stack Developer aus Deutschland – Next.js · TypeScript · Node.js · React · Tailwind
+            Full Stack Developer from Germany – Next.js · Node.js · React · And much more
           </div>
         )}
 
