@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { CardContainer, CardBody, CardItem } from "../ui/3d-card";
@@ -9,17 +9,39 @@ import DecisionHelper from "./DecisionHelper";
 import TradingApp from "./TradingApp";
 import AIImagePlayground from "./AIImagePlayground";
 import MusicLab from "./MusicLab";
+import {
+  IconApps,
+  IconWorldWww,
+  IconDeviceGamepad2,
+  IconShoppingBag,
+  IconUsers,
+  IconMusic,
+  IconPlayerTrackPrev,
+  IconPlayerTrackNext,
+  IconPlayerPlay,
+  IconPlayerPause,
+} from "@tabler/icons-react";
 
 // ----------------------------------------
 // CATEGORY DATA
 // ----------------------------------------
 const CATEGORIES = [
-  { key: "webapps", label: "WebApps (5)" },
-  { key: "websites", label: "Websites (4)" },
-  { key: "games", label: "Games (1)" },
-  { key: "ecommerce", label: "E-Commerce (2)" },
-  { key: "social", label: "Social Media (2)" },
-  { key: "music", label: "Music (2)" },
+  { key: "webapps", label: "WebApps" },
+  { key: "websites", label: "Websites" },
+  { key: "games", label: "Games" },
+  { key: "ecommerce", label: "E-Commerce" },
+  { key: "social", label: "Social Media" },
+  { key: "music", label: "Music" },
+];
+
+const MUSIC_TRACKS = [
+  {
+    title: "NachtsWach.Demo",
+    artist: "Moritz",
+    length: "Demo",
+    src: "/music/NachtsWach.demo.m4a",
+    cover: "/music/NachtsWachCover.png",
+  },
 ];
 
 // Example projects
@@ -240,7 +262,7 @@ const PROJECTS: Record<string, any[]> = {
 },
     {
   type: "comet",
-  title: "MusicLab",
+  title: "NachtsWach.Demo",
   image: "/images/musiclab.png",
   description: "Browser sampler + 16-step sequencer for building beats.",
   customContent: <MusicLab />,
@@ -760,8 +782,62 @@ const PROJECTS: Record<string, any[]> = {
   ),
 }
 ],
-  ecommerce: [{ type: "comet", title: "Store Engine", image: "/ChatApp1.png", description: "E-commerce engine with analytics." }],
-  social: [{ type: "comet", title: "Planner", image: "/ChatApp1.png", description: "Social planner app." }],
+  ecommerce: [{ type: "comet", title: "Print on Demand", image: "/images/PrintOnDemand.svg", description: "E-commerce engine with analytics." }],
+  social: [
+    {
+      type: "comet",
+      title: "mxritttz",
+      image: "/images/ChatApp.png",
+      description: "Personal social profile + content hub.",
+      customContent: (
+        <div className="w-full space-y-5 text-white">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="text-2xl font-semibold">@mxritttz</div>
+              <div className="text-sm text-white/70">Instagram profile</div>
+            </div>
+            <button
+              onClick={() => window.open("https://www.instagram.com/mxritttz", "_blank")}
+              className="px-4 py-2 rounded-full bg-white text-black text-sm font-semibold"
+            >
+              Open in Instagram
+            </button>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-pink-500/10 via-black/40 to-black/70 p-5">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-full bg-white/10" />
+              <div>
+                <div className="text-lg font-semibold">Moritz</div>
+                <div className="text-sm text-white/60">Creative dev • UI experiments</div>
+                <div className="mt-2 flex items-center gap-3 text-xs text-white/60">
+                  <span>Posts 24</span>
+                  <span>Followers 1.2k</span>
+                  <span>Following 180</span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 grid grid-cols-3 gap-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={`ig-preview-${i}`}
+                  className="aspect-square rounded-2xl border border-white/10 bg-white/5"
+                />
+              ))}
+            </div>
+          </div>
+          <div className="text-sm text-white/60">
+            Instagram blocks full-profile embeds in iframes. Use the button to view the real profile.
+          </div>
+        </div>
+      ),
+    },
+    {
+      type: "comet",
+      title: "Planner",
+      image: "/ChatApp1.png",
+      description: "Social planner app.",
+    },
+  ],
   music: [{ type: "comet", title: "SoundWave", image: "/ChatApp1.png", description: "Music streaming app with playlists." }],
 };
 
@@ -923,12 +999,72 @@ export function Projects() {
   const [active, setActive] = useState("webapps");
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [gridVisible, setGridVisible] = useState(true);
+  const [dockPulseIndex, setDockPulseIndex] = useState(0);
+  const [playingTrack, setPlayingTrack] = useState<number | null>(null);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    let timeoutId: number;
+    const count = 6;
+    const stepDelay = 1400;
+    const pauseDelay = 5000;
+
+    const tick = () => {
+      setDockPulseIndex((prev) => {
+        const next = prev + 1;
+        return next >= count ? 0 : next;
+      });
+    };
+
+    const schedule = (current: number) => {
+      const isLast = current >= count - 1;
+      timeoutId = window.setTimeout(() => {
+        tick();
+      }, isLast ? pauseDelay : stepDelay);
+    };
+
+    schedule(dockPulseIndex);
+    return () => window.clearTimeout(timeoutId);
+  }, [dockPulseIndex]);
+
+  const handleTrackPlay = (index: number) => {
+    const track = MUSIC_TRACKS[index];
+    if (!track?.src) return;
+    if (!audioRef.current) {
+      audioRef.current = new Audio(track.src);
+      audioRef.current.preload = "metadata";
+    }
+    const audio = audioRef.current;
+    const currentSrc = audio.src ? new URL(audio.src).pathname : "";
+    if (currentSrc !== track.src) {
+      audio.src = track.src;
+    }
+    if (playingTrack === index && !audio.paused) {
+      audio.pause();
+      setPlayingTrack(null);
+      return;
+    }
+    audio.play();
+    setPlayingTrack(index);
+    audio.onended = () => {
+      setPlayingTrack(null);
+    };
+  };
+
+  const stopMusicPreview = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setPlayingTrack(null);
+    window.dispatchEvent(new Event("musiclab:stop"));
+  };
 
   return (
     <div className="w-full h-full flex flex-col gap-5 bg-gradient-to-b from-neutral-100 via-neutral-100 to-neutral-200 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950 overflow-visible relative">
       {/* iPad-like status bar */}
       <div className="absolute top-0 inset-x-0 z-30 h-10 px-4 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-300 pointer-events-none">
-        <span>9:41</span>
+        <span>20:12</span>
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-4 rounded-full bg-neutral-400/70 dark:bg-neutral-500/70" />
           <span className="h-1.5 w-3 rounded-full bg-neutral-400/60 dark:bg-neutral-500/60" />
@@ -945,30 +1081,26 @@ export function Projects() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ duration: 0.5 }}
-            className="flex-1 flex flex-col pt-8"
+            className="flex-1 flex flex-col pt-8 min-h-0"
           >
-            {/* CATEGORY SELECTOR */}
-            <div className="flex items-center justify-center p-4 relative z-10">
-              <div className="flex bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-3xl p-2 overflow-x-auto">
-                {CATEGORIES.map((category) => (
-                  <button
-                    key={category.key}
-                    onClick={() => setActive(category.key)}
-                    className={cn(
-                      "px-6 py-3 rounded-2xl text-base whitespace-nowrap transition-all",
-                      active === category.key
-                        ? "bg-black text-white dark:bg-white dark:text-black shadow-lg"
-                        : "text-neutral-600 dark:text-neutral-300"
-                    )}
-                  >
-                    {category.label}
-                  </button>
-                ))}
-              </div>
+            {/* CATEGORY HEADING */}
+            <div className="flex flex-col items-center justify-center pt-6 pb-2 relative z-10">
+              <span className="text-xs uppercase tracking-[0.4em] text-neutral-500 dark:text-neutral-400">
+                Library
+              </span>
+              <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+                {(() => {
+                  const label =
+                    CATEGORIES.find((category) => category.key === active)?.label ??
+                    "Projects";
+                  const count = PROJECTS[active]?.length ?? 0;
+                  return `${label} (${count})`;
+                })()}
+              </h2>
             </div>
 
             {/* PROJECT CARDS */}
-            <div className="flex-1 relative">
+            <div className="flex-1 relative min-h-0">
               {active === "webapps" ? (
                 <div className="grid grid-cols-4 gap-6 px-8 pb-28 pt-6 h-full place-items-center">
                   {PROJECTS[active].map((p, i) => (
@@ -990,8 +1122,487 @@ export function Projects() {
                     </motion.div>
                   ))}
                 </div>
+              ) : active === "music" ? (
+                <div className="px-8 pb-28 pt-6 h-full">
+                  <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.4fr] gap-6 h-full">
+                    <div className="rounded-3xl border border-white/10 bg-black/40 p-4 flex flex-col gap-4">
+                      <div className="text-xs uppercase tracking-[0.4em] text-white/50 text-center">
+                        Now Playing
+                      </div>
+                      {(() => {
+                        const nowPlaying =
+                          MUSIC_TRACKS[playingTrack ?? 0] ?? MUSIC_TRACKS[0];
+                        return (
+                          <>
+                        <div className="relative aspect-square w-40 max-w-full rounded-3xl overflow-hidden border border-white/10 bg-white/5 mx-auto flex items-center justify-center">
+                          {nowPlaying?.cover ? (
+                            <img
+                              src={nowPlaying.cover}
+                              alt="Music cover"
+                              className="absolute inset-0 h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/30 via-purple-500/20 to-black/60" />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                          {!nowPlaying?.cover && (
+                            <IconMusic className="h-10 w-10 text-white/80" strokeWidth={1.8} />
+                          )}
+                        </div>
+                      <div className="flex items-center justify-center gap-3">
+                        <button
+                          className="h-11 w-11 rounded-full border border-white/20 text-white/80 flex items-center justify-center"
+                          onClick={() => handleTrackPlay(0)}
+                          aria-label="Previous"
+                        >
+                          <IconPlayerTrackPrev className="h-5 w-5" strokeWidth={2} />
+                        </button>
+                        <button
+                          className="h-12 w-12 rounded-full bg-white text-black flex items-center justify-center"
+                          onClick={() => handleTrackPlay(0)}
+                          aria-label={playingTrack === 0 ? "Pause" : "Play"}
+                        >
+                          {playingTrack === 0 ? (
+                            <IconPlayerPause className="h-5 w-5" strokeWidth={2.5} />
+                          ) : (
+                            <IconPlayerPlay className="h-5 w-5" strokeWidth={2.5} />
+                          )}
+                        </button>
+                        <button
+                          className="h-11 w-11 rounded-full border border-white/20 text-white/80 flex items-center justify-center"
+                          onClick={() => handleTrackPlay(0)}
+                          aria-label="Next"
+                        >
+                          <IconPlayerTrackNext className="h-5 w-5" strokeWidth={2} />
+                        </button>
+                      </div>
+                          </>
+                        );
+                      })()}
+                      <div className="text-center">
+                        <div className="text-xl font-semibold text-white">
+                          {(MUSIC_TRACKS[playingTrack ?? 0] ?? MUSIC_TRACKS[0])?.title ?? "NachtsWach"}
+                        </div>
+                        <div className="text-sm text-white/60">
+                          {(MUSIC_TRACKS[playingTrack ?? 0] ?? MUSIC_TRACKS[0])?.artist ?? "Moritz"}
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center gap-3">
+                        <button className="px-4 py-2 rounded-full border border-white/20 text-white/70 text-sm">
+                          Shuffle
+                        </button>
+                        <button
+                          onClick={() => {
+                            setGridVisible(false);
+                            setSelectedProject(PROJECTS.music[0]);
+                          }}
+                          className="px-4 py-2 rounded-full bg-white text-black text-sm font-semibold hover:scale-[1.02] transition"
+                        >
+                          Open project
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="rounded-3xl border border-white/10 bg-black/30 p-6 flex flex-col gap-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-xs uppercase tracking-[0.4em] text-white/50">
+                            Playlist
+                          </div>
+                          <div className="text-2xl font-semibold text-white mt-2">
+                            Studio Beats
+                          </div>
+                        </div>
+                      <div className="text-sm text-white/50">
+                        {MUSIC_TRACKS.length} track
+                      </div>
+                      </div>
+                      <div className="flex flex-col gap-3 overflow-y-auto">
+                        {MUSIC_TRACKS.map((track, idx) => (
+                          <div
+                            key={track.title}
+                            className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
+                          >
+                            <div className="flex items-center gap-4">
+                            <div className="h-10 w-10 rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                              {track.cover ? (
+                                <img
+                                  src={track.cover}
+                                  alt={`${track.title} cover`}
+                                  className="h-full w-full object-cover"
+                                />
+                              ) : (
+                                <div className="h-full w-full flex items-center justify-center text-white/60 text-sm">
+                                  {String(idx + 1).padStart(2, "0")}
+                                </div>
+                              )}
+                            </div>
+                              <div>
+                                <div className="text-white font-medium">{track.title}</div>
+                                <div className="text-xs text-white/50">{track.artist}</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4 text-white/50 text-sm">
+                              <span>{track.length}</span>
+                              <button
+                                className="h-9 w-9 rounded-full border border-white/20 text-white/70"
+                                onClick={() => handleTrackPlay(idx)}
+                              >
+                                {playingTrack === idx ? "❚❚" : "▶"}
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70">
+                          Demo track only for now — more songs will drop soon.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : active === "websites" ? (
+                <div className="px-8 pb-28 pt-6 h-full">
+                  <div className="rounded-3xl border border-white/10 bg-white/10 dark:bg-black/40 p-5 h-full flex flex-col gap-4">
+                    {/* Browser chrome */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-1.5">
+                        <span className="h-3 w-3 rounded-full bg-red-400/80" />
+                        <span className="h-3 w-3 rounded-full bg-amber-400/80" />
+                        <span className="h-3 w-3 rounded-full bg-green-400/80" />
+                      </div>
+                      <div className="flex-1 rounded-full border border-white/10 bg-white/20 dark:bg-white/5 px-4 py-2 text-xs text-white/70">
+                        https://portfolio.moritz.dev
+                      </div>
+                      <div className="text-xs text-white/50">⌘L</div>
+                    </div>
+
+                    {/* Tabs */}
+                    <div className="flex items-center gap-2 text-xs text-white/60">
+                      {PROJECTS.websites.map((p, idx) => (
+                        <div
+                          key={p.title}
+                          className={cn(
+                            "px-3 py-1.5 rounded-full border border-white/10 bg-white/5",
+                            idx === 0 && "bg-white/20 text-white"
+                          )}
+                        >
+                          {p.title}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Website cards */}
+                    <div className="grid grid-cols-2 gap-5 flex-1 overflow-y-auto">
+                      {PROJECTS.websites.map((p, i) => (
+                        <motion.div
+                          key={p.title}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.08 }}
+                        >
+                          <button
+                            onClick={() => {
+                              setGridVisible(false);
+                              setSelectedProject(p);
+                            }}
+                            className="group relative rounded-3xl border border-white/10 bg-white/5 overflow-hidden text-left w-full"
+                          >
+                            <img src={p.image} className="h-36 w-full object-cover" />
+                            <div className="p-4">
+                              <div className="text-white font-semibold">{p.title}</div>
+                              <div className="text-xs text-white/60 mt-1">{p.description}</div>
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
+                          </button>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : active === "games" ? (
+                <div className="px-8 pb-28 pt-6 h-full">
+                  <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-blue-600/20 via-blue-900/40 to-black/80 p-4 h-full flex flex-col gap-4">
+                    <div className="flex items-center justify-between text-white/70 text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/70" />
+                        <span className="uppercase tracking-[0.35em]">Games</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                        Online
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 overflow-x-auto pb-2">
+                      {PROJECTS.games.map((p, i) => (
+                        <motion.div
+                          key={p.title}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.08 }}
+                        >
+                          <button
+                            onClick={() => {
+                              setGridVisible(false);
+                              setSelectedProject(p);
+                            }}
+                            className={cn(
+                              "relative rounded-3xl border border-white/10 bg-white/5 overflow-hidden text-left flex-shrink-0",
+                              i === 0 ? "w-64 h-40" : "w-44 h-28"
+                            )}
+                          >
+                            <img src={p.image} className="h-full w-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                            <div className="absolute bottom-3 left-3 text-white">
+                              <div className={cn("font-semibold", i === 0 ? "text-lg" : "text-sm")}>
+                                {p.title}
+                              </div>
+                              <div className="text-[10px] text-white/70">
+                                {i === 0 ? "Featured" : "Quick launch"}
+                              </div>
+                            </div>
+                          </button>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-4 flex-1">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.12 }}
+                        className="rounded-3xl border border-white/10 bg-black/35 p-4 flex flex-col gap-3"
+                      >
+                        <div className="text-xs uppercase tracking-[0.3em] text-white/50">What&apos;s New</div>
+                        <div className="flex items-center gap-4">
+                          <div className="h-12 w-12 rounded-xl bg-white/10" />
+                          <div>
+                            <div className="text-white font-semibold">{PROJECTS.games[0]?.title}</div>
+                            <div className="text-[11px] text-white/60">New build deployed • 2h ago</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              const first = PROJECTS.games[0];
+                              if (!first) return;
+                              setGridVisible(false);
+                              setSelectedProject(first);
+                            }}
+                            className="px-3 py-1 rounded-full bg-white text-black text-[10px] font-semibold"
+                          >
+                            Play
+                          </button>
+                          <button
+                            onClick={() => {
+                              const first = PROJECTS.games[0];
+                              if (!first) return;
+                              setGridVisible(false);
+                              setSelectedProject(first);
+                            }}
+                            className="px-3 py-1 rounded-full border border-white/30 text-white text-[10px]"
+                          >
+                            Details
+                          </button>
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="rounded-3xl border border-white/10 bg-black/35 p-4 flex flex-col gap-3"
+                      >
+                        <div className="text-xs uppercase tracking-[0.3em] text-white/50">Now Playing</div>
+                        <div className="flex items-center gap-3">
+                          <div className="h-12 w-12 rounded-xl bg-white/10" />
+                          <div>
+                            <div className="text-white font-semibold">Arcade Session</div>
+                            <div className="text-[11px] text-white/60">Quest mode • 18 min</div>
+                          </div>
+                        </div>
+                        <div className="mt-auto flex items-center justify-between text-[11px] text-white/60">
+                          <span>Trophies</span>
+                          <span>12</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+                          <div className="h-full w-[55%] bg-gradient-to-r from-indigo-400 to-purple-500" />
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
+                </div>
+              ) : active === "ecommerce" ? (
+                <div className="px-8 pb-28 pt-6 h-full overflow-y-auto overscroll-contain min-h-0">
+                  <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/10 via-black/50 to-black/70 p-4 h-full flex flex-col gap-3 overflow-hidden min-h-0">
+                    <div className="flex items-center justify-between text-xs text-white/60">
+                      <div className="uppercase tracking-[0.35em]">Storefront</div>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                        Live
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-3 flex-1 min-h-0 overflow-hidden">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.08 }}
+                        className="rounded-3xl border border-white/10 bg-black/40 p-3 flex flex-col gap-3 overflow-y-auto min-h-0 h-full"
+                      >
+                        <div className="text-xs uppercase tracking-[0.3em] text-white/50">Projects</div>
+                        <div className="grid grid-cols-1 gap-3">
+                          {PROJECTS.ecommerce.map((project) => (
+                            <div key={project.title} className="flex">
+                              <button
+                                onClick={() => {
+                                  setGridVisible(false);
+                                  setSelectedProject(project);
+                                }}
+                                className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 text-left w-1/2 h-1/4 min-h-[140px] flex flex-col"
+                              >
+                                <div className="h-2/5 w-full overflow-hidden">
+                                  <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                                  />
+                                </div>
+                                <div className="p-3 flex-1">
+                                  <div className="text-white font-semibold">{project.title}</div>
+                                  <div className="text-[11px] text-white/60 mt-1">
+                                    {project.description}
+                                  </div>
+                                </div>
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.16 }}
+                        className="rounded-3xl border border-white/10 bg-black/40 p-3 flex flex-col gap-3 overflow-y-auto min-h-0 h-full"
+                      >
+                        <div className="text-xs uppercase tracking-[0.3em] text-white/50">Revenue Snapshot</div>
+                        <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+                          <div className="flex items-center justify-between text-[11px] text-white/60">
+                            <span>Learning demo</span>
+                            <span>~€120</span>
+                          </div>
+                          <div className="mt-2 h-16 rounded-xl bg-gradient-to-r from-emerald-400/30 via-teal-400/20 to-transparent relative overflow-hidden">
+                            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.25)_1px,transparent_1px)] bg-[length:20px_100%] opacity-40" />
+                            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[length:100%_20px] opacity-40" />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          {[
+                            { label: "Revenue", value: "≈ €120" },
+                            { label: "Stores", value: "2" },
+                            { label: "Orders", value: "Demo only" },
+                            { label: "Conversion", value: "Learning" },
+                          ].map((item) => (
+                            <div
+                              key={item.label}
+                              className="rounded-2xl border border-white/10 bg-white/5 p-2"
+                            >
+                              <div className="text-[11px] text-white/50">{item.label}</div>
+                              <div className="text-white font-semibold mt-1">{item.value}</div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="rounded-2xl border border-white/10 bg-white/5 p-2 text-[11px] text-white/60">
+                          Active learning field — independent practice, not professional yet.
+                        </div>
+                        <button
+                          onClick={() => {
+                            const first = PROJECTS.ecommerce[0];
+                            if (!first) return;
+                            setGridVisible(false);
+                            setSelectedProject(first);
+                          }}
+                          className="mt-auto px-4 py-2 rounded-full bg-white text-black text-sm font-semibold"
+                        >
+                          Open store project
+                        </button>
+                      </motion.div>
+                    </div>
+                  </div>
+                </div>
+              ) : active === "social" ? (
+                <div className="px-8 pb-28 pt-6 h-full">
+                  <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-pink-500/10 via-black/40 to-black/70 p-4 h-full flex flex-col gap-4">
+                    <div className="flex items-center justify-between text-xs text-white/60">
+                      <div className="uppercase tracking-[0.35em]">Social Feed</div>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-pink-400" />
+                        Live
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-xl font-semibold text-white">Socialgram</div>
+                      <div className="flex items-center gap-2 text-white/60 text-xs">
+                        <span className="px-3 py-1 rounded-full border border-white/20 bg-white/5">Search</span>
+                        <span className="px-3 py-1 rounded-full border border-white/20 bg-white/5">DMs</span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 overflow-x-auto pb-2">
+                      {PROJECTS.social.map((p) => (
+                        <div key={`${p.title}-story`} className="flex flex-col items-center gap-1">
+                          <div className="h-14 w-14 rounded-full p-[2px] bg-gradient-to-tr from-pink-500 via-fuchsia-500 to-amber-400">
+                            <div className="h-full w-full rounded-full bg-black/70" />
+                          </div>
+                          <div className="text-[10px] text-white/60">{p.title}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                      {PROJECTS.social.map((p, i) => (
+                        <motion.button
+                          key={p.title}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          onClick={() => {
+                            setGridVisible(false);
+                            setSelectedProject(p);
+                          }}
+                          className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden text-left w-full hover:border-white/30 hover:bg-white/10 transition"
+                        >
+                          <div className="flex items-center gap-3 px-4 py-3">
+                            <div className="h-9 w-9 rounded-full bg-white/10" />
+                            <div>
+                              <div className="text-white font-semibold text-sm">{p.title}</div>
+                              <div className="text-[11px] text-white/50">2h ago • @{p.title.toLowerCase()}</div>
+                            </div>
+                          </div>
+                          <img src={p.image} className="h-40 w-full object-cover" />
+                          <div className="px-4 py-3 text-white/70 text-sm">
+                            {p.description}
+                          </div>
+                          <div className="px-4 pb-4 flex items-center justify-between text-white/50 text-xs">
+                            <span>♥ 1.2k • 💬 120 • ↗︎ 38</span>
+                            <span className="px-3 py-1 rounded-full border border-white/20 text-white/70 text-[11px]">
+                              Open project
+                            </span>
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               ) : (
-                <div className="flex gap-6 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-28 pt-4 h-full items-end scrollbar-none relative z-20">
+                <div
+                  className={cn(
+                    "flex gap-6 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-28 pt-4 h-full items-end scrollbar-none relative z-20",
+                    (active === "websites" || active === "games") && "pl-6"
+                  )}
+                >
                   {PROJECTS[active].map((p, i) => (
                     <motion.div
                       key={i}
@@ -1019,6 +1630,7 @@ export function Projects() {
           <ProjectDetail
             project={selectedProject}
             onBack={() => {
+              stopMusicPreview();
               window.dispatchEvent(new Event("musiclab:stop"));
               setSelectedProject(null);
               setGridVisible(true);
@@ -1027,12 +1639,74 @@ export function Projects() {
         )}
       </AnimatePresence>
       {/* iPad-like dock */}
-      <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 h-14 w-[72%] rounded-2xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.12)] flex items-center justify-center gap-4 z-30">
-        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_8px_16px_rgba(56,189,248,0.35)]" />
-        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-fuchsia-400 to-pink-500 shadow-[0_8px_16px_rgba(236,72,153,0.35)]" />
-        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-purple-400 to-indigo-500 shadow-[0_8px_16px_rgba(139,92,246,0.35)]" />
-        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 shadow-[0_8px_16px_rgba(16,185,129,0.35)]" />
-        <div className="h-9 w-9 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-[0_8px_16px_rgba(245,158,11,0.35)]" />
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 h-16 w-[78%] rounded-3xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_12px_34px_rgba(0,0,0,0.16)] flex items-center justify-center gap-5 z-30">
+        {[
+          {
+            key: "webapps",
+            label: "WebApps",
+            icon: IconApps,
+            gradient: "from-cyan-400 to-blue-500",
+            glow: "rgba(56,189,248,0.35)",
+          },
+          {
+            key: "websites",
+            label: "Websites",
+            icon: IconWorldWww,
+            gradient: "from-fuchsia-400 to-pink-500",
+            glow: "rgba(236,72,153,0.35)",
+          },
+          {
+            key: "games",
+            label: "Games",
+            icon: IconDeviceGamepad2,
+            gradient: "from-purple-400 to-indigo-500",
+            glow: "rgba(139,92,246,0.35)",
+          },
+          {
+            key: "ecommerce",
+            label: "E-Commerce",
+            icon: IconShoppingBag,
+            gradient: "from-emerald-400 to-teal-500",
+            glow: "rgba(16,185,129,0.35)",
+          },
+          {
+            key: "social",
+            label: "Social",
+            icon: IconUsers,
+            gradient: "from-amber-400 to-orange-500",
+            glow: "rgba(245,158,11,0.35)",
+          },
+          {
+            key: "music",
+            label: "Music",
+            icon: IconMusic,
+            gradient: "from-lime-400 to-green-500",
+            glow: "rgba(132,204,22,0.35)",
+          },
+        ].map((item, index) => {
+          const Icon = item.icon;
+          const isActive = active === item.key;
+          const shouldPulse = dockPulseIndex === index;
+          return (
+            <button
+              key={item.key}
+              onClick={() => {
+                stopMusicPreview();
+                setActive(item.key);
+              }}
+              aria-label={item.label}
+              className={cn(
+                "h-11 w-11 rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-[0_10px_18px_rgba(0,0,0,0.24)] transition",
+                item.gradient,
+                isActive && "scale-110 ring-2 ring-white/70",
+                shouldPulse && "animate-dock-bounce"
+              )}
+              style={{ boxShadow: `0 8px 16px ${item.glow}` }}
+            >
+              <Icon className="h-5 w-5 text-white drop-shadow" strokeWidth={2} />
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 
 export const Meteors = ({
   number = 20,
@@ -12,15 +12,27 @@ export const Meteors = ({
   className?: string;
 }) => {
   const [width, setWidth] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const seedRef = useRef(Math.random());
 
   useEffect(() => {
+    setMounted(true);
     setWidth(window.innerWidth);
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const meteors = new Array(number).fill(true);
+  const meteors = useMemo(() => new Array(number).fill(true), [number]);
+  const random = useMemo(() => {
+    let seed = Math.floor(seedRef.current * 1_000_000) || 1;
+    return () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <motion.div
@@ -31,7 +43,7 @@ export const Meteors = ({
       style={{ height: "800px" }} // only at the top of the page
     >
       {meteors.map((_, idx) => {
-        const left = Math.random() * width;
+        const left = random() * width;
 
         return (
           <span
@@ -44,8 +56,8 @@ export const Meteors = ({
             style={{
               top: "-40px",
               left: `${left}px`,
-              animationDelay: Math.random() * 5 + "s",
-              animationDuration: `${Math.random() * 5 + 5}s`,
+              animationDelay: random() * 5 + "s",
+              animationDuration: `${random() * 5 + 5}s`,
             }}
           />
         );

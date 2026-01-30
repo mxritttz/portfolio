@@ -175,3 +175,17 @@
   animation: cloud-appear 900ms ease-out forwards;
   will-change: transform, opacity;
 }
+
+@keyframes dock-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-dock-bounce {
+  animation: dock-bounce 1.2s ease-in-out;
+}
