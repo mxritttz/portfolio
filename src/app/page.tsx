@@ -20,7 +20,6 @@ import Lebenslauf from "@/components/ui/Lebenslauf";
 import { TimelineDemo } from "@/components/ui/TimeLineDemo";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import TravelAnimation from "@/components/ui/TravelAnimation";
-import { ContactForm } from "@/components/ui/ContactForm";
 
 
 const images = marqueeImages;
@@ -72,10 +71,6 @@ export default function Home() {
 
       <section id="projects" className="relative flex min-h-screen items-center justify-center">
         <ContainerScroll titleComponent={IPadHeading} children={<Projects />} />
-      </section>
-
-      <section id="iphone" className="relative flex min-h-screen items-center justify-center">
-        <ContactForm />
       </section>
 
       <section id="side-scroll" className="relative w-full">
