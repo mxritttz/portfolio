@@ -20,7 +20,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      setHeight(rect.height);
+      setHeight(rect.height + 160);
     }
   }, [ref]);
 
@@ -37,19 +37,23 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
       className="w-full bg-white dark:bg-black font-sans md:px-10"
       ref={containerRef}
     >
-      <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-  <h2 className="text-3xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent 
-                 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
-    Previously on <span className="italic">"Moritz' Life.mov"</span>
-  </h2>
-  <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-lg">
-    Over the past few years, I’ve been creating, learning, and growing in diverse fields. 
-    Here’s a visual journey of my work, experiences, and milestones so far.
-  </p>
-</div>
+      <div className="max-w-7xl mx-auto py-24 px-4 md:px-8 lg:px-10 relative">
+        <div className="absolute -top-6 left-10 h-24 w-24 rounded-full bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent blur-2xl" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/60 dark:border-white/10 bg-white/70 dark:bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.4em] text-neutral-600 dark:text-neutral-300 shadow-sm">
+          CV Timeline
+        </div>
+        <h2 className="mt-4 text-4xl md:text-6xl font-extrabold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
+          The journey of <span className="italic">Moritz</span>
+        </h2>
+        <div className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+        <p className="mt-5 text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-xl">
+          Over the past few years, I’ve been creating, learning, and growing in diverse fields.
+          Here’s a visual journey of my work, experiences, and milestones so far.
+        </p>
+      </div>
 
 
-      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+      <div ref={ref} className="relative max-w-7xl mx-auto pb-24">
         {data.map((item, index) => (
           <div
             key={index}
