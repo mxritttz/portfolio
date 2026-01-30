@@ -768,8 +768,9 @@ const PROJECTS: Record<string, any[]> = {
 // ----------------------------------------
 // CARD RENDERER
 // ----------------------------------------
-function ProjectCard({ project, onClick }: any) {
+function ProjectCard({ project, onClick, compact = false }: any) {
   const baseClass = "cursor-pointer";
+  const compactClass = compact ? "w-[12vw] sm:w-[10vw] h-[18vh]" : "w-[19vw] sm:w-[17vw] h-[42vh] p-4";
 
   if (project.type === "3d") {
     return (
@@ -793,11 +794,29 @@ function ProjectCard({ project, onClick }: any) {
   }
 
   if (project.type === "comet") {
+    if (compact) {
+      return (
+        <div className="flex flex-col items-center gap-2">
+          <CometCard springConfig={{ stiffness: 160, damping: 22, mass: 0.85 }} rotateDepth={8} translateDepth={6}>
+            <div
+              onClick={onClick}
+              className={`${baseClass} ${compactClass} bg-[#141516] rounded-[2.2rem] shadow-[0_20px_50px_rgba(0,0,0,0.35)] border border-white/5 overflow-hidden`}
+            >
+              <img src={project.image} className="h-full w-full object-cover" />
+            </div>
+          </CometCard>
+          <div className="text-[11px] text-white/80 font-medium text-center leading-tight">
+            {project.title}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <CometCard>
         <div
           onClick={onClick}
-          className={`${baseClass} w-[19vw] sm:w-[17vw] h-[42vh] bg-[#141516] p-4 rounded-[2.2rem] flex flex-col gap-3 shadow-[0_20px_50px_rgba(0,0,0,0.35)] border border-white/5`}
+          className={`${baseClass} ${compactClass} bg-[#141516] rounded-[2.2rem] flex flex-col gap-3 shadow-[0_20px_50px_rgba(0,0,0,0.35)] border border-white/5`}
         >
           <div className="relative flex-1 rounded-2xl overflow-hidden border border-white/10">
             <img src={project.image} className="absolute inset-0 h-full w-full object-cover" />
@@ -950,25 +969,48 @@ export function Projects() {
 
             {/* PROJECT CARDS */}
             <div className="flex-1 relative">
-              <div className="flex gap-6 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-28 pt-4 h-full items-end scrollbar-none relative z-20">
-                {PROJECTS[active].map((p, i) => (
-                  <motion.div
-                    key={i}
-                    className="snap-center"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <ProjectCard
-                      project={p}
-                      onClick={() => {
-                        setGridVisible(false);
-                        setSelectedProject(p);
-                      }}
-                    />
-                  </motion.div>
-                ))}
-              </div>
+              {active === "webapps" ? (
+                <div className="grid grid-cols-4 gap-6 px-8 pb-28 pt-6 h-full place-items-center">
+                  {PROJECTS[active].map((p, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex justify-center"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.08 }}
+                    >
+                      <ProjectCard
+                        project={p}
+                        compact
+                        onClick={() => {
+                          setGridVisible(false);
+                          setSelectedProject(p);
+                        }}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex gap-6 overflow-x-scroll overflow-y-visible snap-x snap-mandatory pb-28 pt-4 h-full items-end scrollbar-none relative z-20">
+                  {PROJECTS[active].map((p, i) => (
+                    <motion.div
+                      key={i}
+                      className="snap-center"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      <ProjectCard
+                        project={p}
+                        onClick={() => {
+                          setGridVisible(false);
+                          setSelectedProject(p);
+                        }}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         )}

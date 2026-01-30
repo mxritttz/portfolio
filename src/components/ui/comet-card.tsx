@@ -12,11 +12,17 @@ import { cn } from "@/lib/utils";
 export const CometCard = ({
   rotateDepth = 17.5,
   translateDepth = 20,
+  springConfig,
   className,
   children,
 }: {
   rotateDepth?: number;
   translateDepth?: number;
+  springConfig?: {
+    stiffness?: number;
+    damping?: number;
+    mass?: number;
+  };
   className?: string;
   children: React.ReactNode;
 }) => {
@@ -25,8 +31,8 @@ export const CometCard = ({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const mouseXSpring = useSpring(x);
-  const mouseYSpring = useSpring(y);
+  const mouseXSpring = useSpring(x, springConfig);
+  const mouseYSpring = useSpring(y, springConfig);
 
   const rotateX = useTransform(
     mouseYSpring,
