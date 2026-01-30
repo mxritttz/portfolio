@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export function ContactForm() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
     message: "",
+    _gotcha: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [toast, setToast] = useState<null | "success" | "error">(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -19,7 +21,13 @@ export function ContactForm() {
     setStatus("sending");
 
     try {
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      if (formState._gotcha.trim()) {
+        setStatus("success");
+        setToast("success");
+        setFormState({ name: "", email: "", message: "", _gotcha: "" });
+        return;
+      }
+      const response = await fetch("https://formspree.io/f/xdannzlq", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formState),
@@ -27,14 +35,23 @@ export function ContactForm() {
 
       if (response.ok) {
         setStatus("success");
-        setFormState({ name: "", email: "", message: "" });
+        setFormState({ name: "", email: "", message: "", _gotcha: "" });
+        setToast("success");
       } else {
         setStatus("error");
+        setToast("error");
       }
     } catch (error) {
       setStatus("error");
+      setToast("error");
     }
   };
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 2500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   return (
     <section className="relative w-full overflow-hidden py-20 px-6 bg-zinc-950 text-white">
@@ -63,34 +80,17 @@ export function ContactForm() {
           </p>
           <div className="space-y-3">
             <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <span className="text-lg">✉️</span>
+              <span className="text-lg">📝</span>
               <div>
-                <p className="text-xs uppercase tracking-widest text-zinc-400">Email</p>
-                <a
-                  href="mailto:your.email@example.com"
-                  className="text-white hover:text-emerald-200 transition-colors"
-                >
-                  your.email@example.com
-                </a>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <span className="text-lg">📞</span>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-zinc-400">Phone</p>
-                <a
-                  href="tel:+49123456789"
-                  className="text-white hover:text-emerald-200 transition-colors"
-                >
-                  +49 123 456 789
-                </a>
+                <p className="text-xs uppercase tracking-widest text-zinc-400">Contact</p>
+                <p className="text-white">Please use the form to reach me.</p>
               </div>
             </div>
             <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <span className="text-lg">📍</span>
               <div>
                 <p className="text-xs uppercase tracking-widest text-zinc-400">Location</p>
-                <p className="text-white">Stuttgart, Germany</p>
+                <p className="text-white">70565 Stuttgart</p>
               </div>
             </div>
           </div>
@@ -101,6 +101,17 @@ export function ContactForm() {
           <div className="pointer-events-none absolute inset-0 rounded-3xl bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]" />
           <form onSubmit={handleSubmit} className="relative space-y-5">
             <div className="grid grid-cols-1 gap-4">
+              <label className="sr-only">
+                Website
+                <input
+                  type="text"
+                  name="_gotcha"
+                  value={formState._gotcha}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </label>
               <label className="space-y-2 text-sm text-zinc-300">
                 Name
                 <input
@@ -150,15 +161,19 @@ export function ContactForm() {
                 <span className="absolute -left-8 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-white/30 blur-2xl" />
               </span>
             </button>
-            <div aria-live="polite" className="min-h-[24px] text-center text-sm">
-              {status === "success" && (
-                <p className="text-emerald-300">Message sent successfully!</p>
-              )}
-              {status === "error" && (
-                <p className="text-rose-300">Oops! Something went wrong.</p>
-              )}
-            </div>
           </form>
+          {toast && (
+            <div
+              role="status"
+              className={`pointer-events-none absolute bottom-6 right-6 rounded-full px-4 py-2 text-xs font-semibold shadow-lg ${
+                toast === "success"
+                  ? "bg-emerald-400/90 text-black"
+                  : "bg-rose-400/90 text-black"
+              }`}
+            >
+              {toast === "success" ? "Message sent ✓" : "Something went wrong"}
+            </div>
+          )}
         </div>
       </div>
     </section>

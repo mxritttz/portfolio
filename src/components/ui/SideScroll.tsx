@@ -6,6 +6,7 @@ import {
   useVelocity,
   useTransform,
   useSpring,
+  useMotionValue,
 } from "framer-motion";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ContactForm } from "@/components/ui/ContactForm";
@@ -27,36 +28,48 @@ export const SideScroll = () => {
 
   // Sanfteres Scrollen
   const xRaw = useTransform(scrollYProgress, [0, 1], [0, -maxTranslate]);
-  const xSpring = useSpring(xRaw, { mass: 1, stiffness: 40, damping: 30 });
+  const xSpring = useSpring(xRaw, {
+    mass: 1.1,
+    stiffness: 55,
+    damping: 35,
+    restDelta: 0.001,
+  });
   const secondXRaw = useTransform(
     scrollYProgress,
     [0, 0.4, 0.65, 1],
     [-maxTranslate * 0.6, -maxTranslate * 0.35, 0, 0]
   );
   const xSpringReverse = useSpring(secondXRaw, {
-    mass: 1,
-    stiffness: 40,
-    damping: 30,
+    mass: 1.1,
+    stiffness: 55,
+    damping: 35,
+    restDelta: 0.001,
   });
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.15, 0.85, 1],
     [0.5, 1, 1, 0.5]
   );
-  const subScale = useTransform(scrollYProgress, [0.35, 0.8], [1.7, 2.6]);
-  const subY = useTransform(scrollYProgress, [0.35, 0.8], [240, -80]);
+  const subScaleRaw = useTransform(scrollYProgress, [0.35, 0.8], [1.7, 2.6]);
+  const subScale = useSpring(subScaleRaw, { stiffness: 90, damping: 30 });
+  const subYRaw = useTransform(scrollYProgress, [0.35, 0.8], [240, -80]);
+  const subY = useSpring(subYRaw, { stiffness: 90, damping: 30 });
   const subOpacity = useTransform(scrollYProgress, [0.3, 0.55], [0.6, 1]);
-  const formOpacity = useTransform(scrollYProgress, [0.6, 0.82], [0, 1]);
-  const formY = useTransform(scrollYProgress, [0.6, 0.82], [40, 0]);
-  const secondOpacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
-  const secondY = useTransform(scrollYProgress, [0.35, 0.55], [16, 0]);
+  const formOpacityRaw = useTransform(scrollYProgress, [0.6, 0.82], [0, 1]);
+  const formOpacity = useSpring(formOpacityRaw, { stiffness: 90, damping: 30 });
+  const formYRaw = useTransform(scrollYProgress, [0.6, 0.82], [40, 0]);
+  const formY = useSpring(formYRaw, { stiffness: 90, damping: 30 });
+  const secondOpacityRaw = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
+  const secondOpacity = useSpring(secondOpacityRaw, { stiffness: 80, damping: 26 });
+  const secondYRaw = useTransform(scrollYProgress, [0.35, 0.55], [16, 0]);
+  const secondY = useSpring(secondYRaw, { stiffness: 80, damping: 26 });
 
   useLayoutEffect(() => {
     const update = () => {
       if (!textRef.current) return;
       const textWidth = textRef.current.scrollWidth;
       const viewport = window.innerWidth;
-      const next = Math.max(0, textWidth + viewport * 1.2);
+      const next = Math.max(0, textWidth + viewport * 1.05);
       setMaxTranslate(next);
     };
 
@@ -75,11 +88,11 @@ export const SideScroll = () => {
   return (
     <section
       ref={targetRef}
-      className="relative h-[700vh] w-full bg-neutral-50 text-neutral-950 max-w-full"
+      className="relative h-[560vh] w-full bg-neutral-50 text-neutral-950 max-w-full"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(236,72,153,0.16),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(147,197,253,0.12),transparent_50%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/0 to-white/30" />
-      <div className="sticky top-0 flex min-h-screen items-start overflow-visible pt-16 pb-16">
+      <div className="sticky top-0 flex min-h-screen items-start overflow-visible pt-16 pb-16 will-change-transform">
         <div className="relative w-full pl-6 md:pl-10">
           <motion.p
             ref={textRef}
