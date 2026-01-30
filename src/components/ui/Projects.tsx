@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useAnimation } from "motion/react";
 import { cn } from "@/lib/utils";
 import { CardContainer, CardBody, CardItem } from "../ui/3d-card";
 import { CometCard } from "@/components/ui/comet-card";
@@ -1001,7 +1001,43 @@ export function Projects() {
   const [gridVisible, setGridVisible] = useState(true);
   const [dockPulseIndex, setDockPulseIndex] = useState(0);
   const [playingTrack, setPlayingTrack] = useState<number | null>(null);
+  const [isLocked, setIsLocked] = useState(false);
+  const [now, setNow] = useState(new Date());
+  const [mounted, setMounted] = useState(false);
+  const [lockDragging, setLockDragging] = useState(false);
+  const [unlockPulse, setUnlockPulse] = useState(0);
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const sliderControls = useAnimation();
+  const wasLockedRef = React.useRef(isLocked);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = sessionStorage.getItem("projects-unlocked");
+    if (!seen) {
+      setIsLocked(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (wasLockedRef.current && !isLocked) {
+      setUnlockPulse((prev) => prev + 1);
+    }
+    wasLockedRef.current = isLocked;
+  }, [isLocked]);
+
+  useEffect(() => {
+    if (isLocked) {
+      sliderControls.set({ x: 0 });
+    }
+  }, [isLocked, sliderControls]);
+
+  useEffect(() => {
+    setMounted(true);
+    const tick = () => setNow(new Date());
+    tick();
+    const interval = window.setInterval(tick, 30_000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     let timeoutId: number;
@@ -1060,11 +1096,140 @@ export function Projects() {
     window.dispatchEvent(new Event("musiclab:stop"));
   };
 
+  const timeLabel = mounted
+    ? new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit" }).format(now)
+    : "—:—";
+  const dateLabel = mounted
+    ? new Intl.DateTimeFormat("de-DE", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      }).format(now)
+    : "—";
+
   return (
     <div className="w-full h-full flex flex-col gap-5 bg-gradient-to-b from-neutral-100 via-neutral-100 to-neutral-200 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950 overflow-visible relative">
+      <AnimatePresence>
+        {isLocked && (
+          <motion.div
+            type="button"
+            onClick={() => {
+              // tap no longer unlocks; use slider
+            }}
+            className="absolute inset-0 z-[60] rounded-2xl overflow-hidden text-left"
+            aria-label="Unlock projects"
+            initial={{ opacity: 0, scale: 1.02, filter: "blur(6px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 0.98, filter: "blur(8px)" }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(99,102,241,0.45),transparent_45%),radial-gradient(circle_at_85%_15%,rgba(236,72,153,0.35),transparent_45%),radial-gradient(circle_at_50%_90%,rgba(14,165,233,0.35),transparent_45%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_28%,rgba(255,255,255,0.08))]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.18),transparent_55%)]" />
+
+            <div className="relative z-10 flex h-full flex-col justify-between px-8 py-10 text-white">
+              <div className="flex items-start justify-end">
+                <div className="flex items-center gap-2 text-xs text-white/60">
+                  <span className="h-1.5 w-4 rounded-full bg-white/70" />
+                  <span className="h-1.5 w-3 rounded-full bg-white/60" />
+                  <span className="h-1.5 w-2 rounded-full bg-white/50" />
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center gap-4">
+                <div className="text-8xl md:text-[6.5rem] font-semibold drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                  {timeLabel}
+                </div>
+                <div className="text-base uppercase tracking-[0.5em] text-white/70">
+                  {dateLabel}
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-white/15 bg-gradient-to-br from-white/20 via-white/5 to-white/10 backdrop-blur-xl px-4 py-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)]">
+                <div className="text-[11px] uppercase tracking-[0.35em] text-white/70">
+                  Notifications
+                </div>
+                <div className="mt-2 flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="h-8 w-8 rounded-2xl bg-gradient-to-br from-pink-400 via-fuchsia-500 to-indigo-500 shadow-[0_10px_20px_rgba(236,72,153,0.4)]" />
+                    <div>
+                      <div className="font-semibold">Projects</div>
+                      <div className="text-white/70 text-xs">There is so much to explore</div>
+                    </div>
+                  </div>
+                  <div className="flex h-full items-start">
+                    <span className="text-xs text-white/60 leading-none mt-0.5">now</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center gap-3 text-white/70">
+                <div className="relative h-10 w-60 rounded-full border border-white/25 bg-white/10 px-2 flex items-center overflow-hidden">
+                  <motion.div
+                    aria-hidden
+                    className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.0),rgba(255,255,255,0.25),rgba(255,255,255,0.0))] opacity-70"
+                    animate={{ x: lockDragging ? 0 : ["-40%", "40%"] }}
+                    transition={
+                      lockDragging
+                        ? { duration: 0 }
+                        : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
+                    }
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-[0.35em] text-white/60">
+                    slide to unlock →
+                  </div>
+                  <motion.div
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 140 }}
+                    dragElastic={0.1}
+                    onDragStart={() => setLockDragging(true)}
+                    onDragEnd={(_, info) => {
+                      setLockDragging(false);
+                      if (info.offset.x > 110) {
+                        sliderControls
+                          .start({ x: 140, transition: { duration: 0.2 } })
+                          .then(() => {
+                            setIsLocked(false);
+                            if (typeof window !== "undefined") {
+                              sessionStorage.setItem("projects-unlocked", "true");
+                            }
+                          });
+                      } else {
+                        sliderControls.start({
+                          x: 0,
+                          transition: { type: "spring", stiffness: 400, damping: 30 },
+                        });
+                      }
+                    }}
+                    animate={sliderControls}
+                    className="relative z-10 h-8 w-8 rounded-full bg-white/90 shadow-[0_8px_20px_rgba(0,0,0,0.35)] flex items-center justify-center text-xs text-black"
+                  >
+                    →
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {!isLocked && (
+        <button
+          onClick={() => {
+            setIsLocked(true);
+            if (typeof window !== "undefined") {
+              sessionStorage.removeItem("projects-unlocked");
+            }
+          }}
+          className="absolute right-3 top-3 z-[55] flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition hover:bg-white/20 hover:scale-[1.03]"
+        >
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+          Lock
+        </button>
+      )}
       {/* iPad-like status bar */}
       <div className="absolute top-0 inset-x-0 z-30 h-10 px-4 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-300 pointer-events-none">
-        <span>20:12</span>
+        <span>{timeLabel}</span>
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-4 rounded-full bg-neutral-400/70 dark:bg-neutral-500/70" />
           <span className="h-1.5 w-3 rounded-full bg-neutral-400/60 dark:bg-neutral-500/60" />
@@ -1076,7 +1241,7 @@ export function Projects() {
       <AnimatePresence mode="wait">
         {gridVisible && !selectedProject && (
           <motion.div
-            key="grid"
+            key={`grid-${active}-${unlockPulse}`}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
@@ -1088,15 +1253,18 @@ export function Projects() {
               <span className="text-xs uppercase tracking-[0.4em] text-neutral-500 dark:text-neutral-400">
                 Library
               </span>
-              <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                {(() => {
-                  const label =
-                    CATEGORIES.find((category) => category.key === active)?.label ??
-                    "Projects";
-                  const count = PROJECTS[active]?.length ?? 0;
-                  return `${label} (${count})`;
-                })()}
-              </h2>
+              <div className="relative w-full flex items-center justify-center">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+                  {(() => {
+                    const label =
+                      CATEGORIES.find((category) => category.key === active)?.label ??
+                      "Projects";
+                    const count = PROJECTS[active]?.length ?? 0;
+                    return `${label} (${count})`;
+                  })()}
+                </h2>
+                {active === "webapps" && null}
+              </div>
             </div>
 
             {/* PROJECT CARDS */}
