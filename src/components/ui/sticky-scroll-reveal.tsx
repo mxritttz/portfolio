@@ -169,9 +169,9 @@ export const StickyScroll = ({
                     <h2 className="text-5xl md:text-6xl font-extrabold text-white leading-tight">
                       {item.title}
                     </h2>
-                    <p className="mt-8 max-w-2xl text-2xl text-slate-300 leading-relaxed">
+                    <div className="mt-8 max-w-2xl text-2xl text-slate-300 leading-relaxed">
                       {item.description}
-                    </p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -7,6 +7,8 @@ import { CardContainer, CardBody, CardItem } from "../ui/3d-card";
 import { CometCard } from "@/components/ui/comet-card";
 import DecisionHelper from "./DecisionHelper";
 import TradingApp from "./TradingApp";
+import AIImagePlayground from "./AIImagePlayground";
+import MusicLab from "./MusicLab";
 
 // ----------------------------------------
 // CATEGORY DATA
@@ -229,6 +231,20 @@ const PROJECTS: Record<string, any[]> = {
   )
 }
 ,
+    {
+  type: "comet",
+  title: "AI Image Playground",
+  image: "/images/imagehub.png",
+  description: "Client-only AI image tools running fully in the browser.",
+  customContent: <AIImagePlayground />,
+},
+    {
+  type: "comet",
+  title: "MusicLab",
+  image: "/images/musiclab.png",
+  description: "Browser sampler + 16-step sequencer for building beats.",
+  customContent: <MusicLab />,
+},
     {
       type: "comet",
       title: "MyOwnRAG",
@@ -961,6 +977,7 @@ export function Projects() {
           <ProjectDetail
             project={selectedProject}
             onBack={() => {
+              window.dispatchEvent(new Event("musiclab:stop"));
               setSelectedProject(null);
               setGridVisible(true);
             }}
