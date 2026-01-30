@@ -88,7 +88,7 @@ export const SideScroll = () => {
   return (
     <section
       ref={targetRef}
-      className="relative h-[560vh] w-full bg-neutral-50 text-neutral-950 max-w-full"
+      className="relative h-[560vh] w-full bg-neutral-50 text-neutral-950 max-w-full overflow-x-hidden"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(236,72,153,0.16),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(147,197,253,0.12),transparent_50%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/0 to-white/30" />
