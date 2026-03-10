@@ -26,10 +26,10 @@ const images = marqueeImages;
 
 const IPadHeading = (
   <>
-    <h1 className="text-5xl md:text-6xl font-extrabold text-black dark:text-white leading-tight">
+    <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-black dark:text-white leading-tight">
       Discover some of my
       <br />
-      <span className="text-4xl md:text-[6rem] font-black mt-1 leading-none bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-purple-400 drop-shadow-[0_10px_30px_rgba(56,189,248,0.35)]">
+      <span className="text-3xl sm:text-4xl md:text-[6rem] font-black mt-1 leading-none bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-purple-400 drop-shadow-[0_10px_30px_rgba(56,189,248,0.35)]">
         Projects
       </span>
     </h1>
@@ -77,7 +77,7 @@ export default function Home() {
         <SideScroll />
       </section>
 
-      <section id="iphone" className="relative flex min-h-screen items-center justify-center">
+      <section id="iphone" className="relative flex min-h-screen flex-col md:flex-row items-center justify-center gap-8 px-4">
         <IPhone />
         <TravelAnimation />
       </section>

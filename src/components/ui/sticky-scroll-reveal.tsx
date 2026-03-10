@@ -136,7 +136,7 @@ export const StickyScroll = ({
         }
       }}
       className={cn(
-        "relative w-full h-screen snap-y snap-mandatory",
+        "relative w-full h-[80vh] sm:h-screen snap-y snap-mandatory",
         isActive ? "overflow-y-scroll" : "overflow-y-hidden"
         ,className
       )}
@@ -145,14 +145,14 @@ export const StickyScroll = ({
         <section
           key={idx}
           className={cn(
-            "relative h-screen w-full flex justify-between items-center px-10 md:px-20 lg:px-28 snap-center",
+            "relative h-screen w-full flex flex-col md:flex-row justify-between items-center px-4 sm:px-8 md:px-20 lg:px-28 snap-center",
             sectionClassName
           )}
         >
           {/* LEFT SIDE SCROLLING TEXT */}
           <div
             className={cn(
-              "w-[70%] flex flex-col justify-center h-full",
+              "w-full md:w-[70%] flex flex-col justify-center h-full pb-6 md:pb-0",
               textClassName
             )}
           >
@@ -166,10 +166,10 @@ export const StickyScroll = ({
                     exit={{ opacity: 0, x: 50 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h2 className="text-5xl md:text-6xl font-extrabold text-white leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white leading-tight">
                       {item.title}
                     </h2>
-                    <div className="mt-8 max-w-2xl text-2xl text-slate-300 leading-relaxed">
+                    <div className="mt-6 md:mt-8 max-w-2xl text-base sm:text-lg md:text-2xl text-slate-300 leading-relaxed">
                       {item.description}
                     </div>
                   </motion.div>
@@ -179,7 +179,7 @@ export const StickyScroll = ({
           </div>
 
           {/* RIGHT SIDE STICKY CONTENT */}
-          <div className="w-[30%] flex items-center justify-center h-full">
+          <div className="w-full md:w-[30%] flex items-center justify-center h-full">
             <div className="sticky top-1/2 -translate-y-1/2">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -190,7 +190,7 @@ export const StickyScroll = ({
                   transition={{ duration: 0.5 }}
                   style={{ background: bgGradient }}
                   className={cn(
-                    "h-[480px] w-[380px] rounded-2xl shadow-xl overflow-hidden flex items-center justify-center",
+                    "h-[260px] w-[280px] sm:h-[320px] sm:w-[320px] md:h-[480px] md:w-[380px] rounded-2xl shadow-xl overflow-hidden flex items-center justify-center",
                     contentClassName
                   )}
                 >

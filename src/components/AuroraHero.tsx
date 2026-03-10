@@ -46,15 +46,15 @@ export const AuroraHero = () => {
   return (
     <motion.section
       style={{ backgroundImage }}
-      className="relative grid min-h-screen w-screen place-content-center overflow-hidden bg-black-950 px-4 py-24 text-gray-200"
+      className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-black-950 px-5 sm:px-6 py-20 sm:py-24 text-gray-200"
     >
-      <div className="relative z-10 flex flex-col items-center pt-20 gap-8 text-center">
+      <div className="relative z-10 flex flex-col items-center pt-12 sm:pt-20 gap-6 sm:gap-8 text-center">
         <span className="rounded-full bg-gray-800/60 px-5 py-2 text-sm font-medium backdrop-blur-md">
           Available for freelance & part-time
         </span>
 
 
-        <h1 className="bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 bg-clip-text text-5xl font-black leading-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
+        <h1 className="bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 bg-clip-text text-4xl font-black leading-tight text-transparent sm:text-5xl md:text-7xl lg:text-8xl">
           Moritz Renner
         </h1>
 
@@ -69,7 +69,7 @@ export const AuroraHero = () => {
             ]}
           />
         ) : (
-          <div className="font-semibold text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+          <div className="font-semibold text-center text-lg sm:text-2xl md:text-3xl lg:text-4xl">
             Full Stack Developer from Germany – Next.js · Node.js · React · And much more
           </div>
         )}
@@ -79,7 +79,7 @@ export const AuroraHero = () => {
           style={{ border, boxShadow }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="group flex items-center gap-4 rounded-full bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20"
+          className="group flex items-center gap-3 rounded-full bg-white/10 px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20"
         >
           Let’s work together
           <ArrowRight className="size-5 transition-transform group-hover:translate-x-2" />

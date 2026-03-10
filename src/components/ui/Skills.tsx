@@ -285,11 +285,11 @@ const sticky = [
 
 export function Skills() {
   return (
-    <section className="h-full w-full flex flex-col pt-20">
+    <section className="h-full w-full flex flex-col pt-12 sm:pt-20">
 
-        <div className="sticky top-4 z-50 bg-black/70 backdrop-blur-xl rounded-3xl mx-4 md:mx-20 py-6 flex flex-col items-center text-center shadow-lg border-4 border-white/10">
+        <div className="sticky top-2 sm:top-4 z-50 bg-black/70 backdrop-blur-xl rounded-3xl mx-3 sm:mx-4 md:mx-20 py-4 sm:py-6 flex flex-col items-center text-center shadow-lg border-4 border-white/10">
   {/* Main Heading with Gradient */}
-  <p className="relative z-20 text-4xl md:text-6xl font-extrabold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 animate-text-gradient">
+  <p className="relative z-20 text-3xl sm:text-4xl md:text-6xl font-extrabold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 animate-text-gradient">
     This is what I
   </p>
 
@@ -298,7 +298,7 @@ export function Skills() {
     <FlipWords
       words={skillWords}
       duration={2000}
-      className="relative z-10 text-3xl md:text-5xl font-bold text-cyan-400/90 pt-3 tracking-wide drop-shadow-lg"
+      className="relative z-10 text-2xl sm:text-3xl md:text-5xl font-bold text-cyan-400/90 pt-2 sm:pt-3 tracking-wide drop-shadow-lg"
     />
   )}
 </div>
@@ -309,7 +309,7 @@ export function Skills() {
         <StickyScroll
           content={sticky}
           className="h-screen w-full"
-          textClassName="pt-24"
+          textClassName="pt-16 sm:pt-24"
         />
       </div>
 

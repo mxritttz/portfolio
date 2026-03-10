@@ -25,11 +25,11 @@ export function AboutMe() {
       <div
         className="
           absolute inset-x-0
-          bottom-[-45vh]
-          h-[60vh]
+          bottom-[-25vh] sm:bottom-[-35vh] md:bottom-[-45vh]
+          h-[40vh] sm:h-[50vh] md:h-[60vh]
           z-0
           pointer-events-none
-          opacity-40
+          opacity-20 sm:opacity-30 md:opacity-40
         "
       >
         <ThreeDMarquee images={images} />
@@ -41,7 +41,8 @@ export function AboutMe() {
 
         <BentoGrid className="
           w-full max-w-none
-          px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-44
+          px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-44
+          gap-4 sm:gap-6
           md:auto-rows-[20rem]
         ">
           {items.map((item, i) => (
@@ -85,7 +86,7 @@ const SkeletonOne = () => {
 };
 const SkeletonTwo2 = () => {
   return (
-    <motion.div className="relative w-full h-full min-h-[38rem]">
+    <motion.div className="relative w-full h-full min-h-[26rem] sm:min-h-[32rem] md:min-h-[38rem] flex items-center justify-center">
       <IPhone />
     </motion.div>
   );
@@ -279,7 +280,7 @@ const items = [
       </span>
     ), */
     header: <SkeletonTwo2 />,
-    className: "md:col-span-1 row-span-2",
+    className: "md:col-span-1 md:row-span-2",
     icon: "",
   },
   {

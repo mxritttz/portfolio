@@ -54,14 +54,14 @@ export function ContactForm() {
   }, [toast]);
 
   return (
-    <section className="relative w-full overflow-hidden py-20 px-6 bg-zinc-950 text-white">
+    <section className="relative w-full overflow-hidden py-14 sm:py-20 px-4 sm:px-6 bg-zinc-950 text-white">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[90px]" />
         <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-sky-500/20 blur-[110px]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_55%)]" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
         
         {/* Left Side: Contact Info */}
         <div className="flex flex-col justify-center space-y-6">

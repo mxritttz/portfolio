@@ -846,7 +846,9 @@ const PROJECTS: Record<string, any[]> = {
 // ----------------------------------------
 function ProjectCard({ project, onClick, compact = false }: any) {
   const baseClass = "cursor-pointer";
-  const compactClass = compact ? "w-[12vw] sm:w-[10vw] h-[18vh]" : "w-[19vw] sm:w-[17vw] h-[42vh] p-4";
+  const compactClass = compact
+    ? "w-[36vw] sm:w-[20vw] md:w-[10vw] h-[18vh] sm:h-[20vh]"
+    : "w-[70vw] sm:w-[40vw] md:w-[17vw] h-[36vh] sm:h-[42vh] p-4";
 
   if (project.type === "3d") {
     return (
@@ -1270,7 +1272,7 @@ export function Projects() {
             {/* PROJECT CARDS */}
             <div className="flex-1 relative min-h-0">
               {active === "webapps" ? (
-                <div className="grid grid-cols-4 gap-6 px-8 pb-28 pt-6 h-full place-items-center">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full place-items-center">
                   {PROJECTS[active].map((p, i) => (
                     <motion.div
                       key={i}
@@ -1291,8 +1293,8 @@ export function Projects() {
                   ))}
                 </div>
               ) : active === "music" ? (
-                <div className="px-8 pb-28 pt-6 h-full">
-                  <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.4fr] gap-6 h-full">
+                <div className="px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full">
+                  <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.4fr] gap-4 sm:gap-6 h-full">
                     <div className="rounded-3xl border border-white/10 bg-black/40 p-4 flex flex-col gap-4">
                       <div className="text-xs uppercase tracking-[0.4em] text-white/50 text-center">
                         Now Playing
@@ -1371,7 +1373,7 @@ export function Projects() {
                       </div>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-black/30 p-6 flex flex-col gap-6">
+                    <div className="rounded-3xl border border-white/10 bg-black/30 p-4 sm:p-6 flex flex-col gap-5 sm:gap-6">
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="text-xs uppercase tracking-[0.4em] text-white/50">
@@ -1429,7 +1431,7 @@ export function Projects() {
                   </div>
                 </div>
               ) : active === "websites" ? (
-                <div className="px-8 pb-28 pt-6 h-full">
+                <div className="px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full">
                   <div className="rounded-3xl border border-white/10 bg-white/10 dark:bg-black/40 p-5 h-full flex flex-col gap-4">
                     {/* Browser chrome */}
                     <div className="flex items-center gap-3">
@@ -1460,7 +1462,7 @@ export function Projects() {
                     </div>
 
                     {/* Website cards */}
-                    <div className="grid grid-cols-2 gap-5 flex-1 overflow-y-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 flex-1 overflow-y-auto">
                       {PROJECTS.websites.map((p, i) => (
                         <motion.div
                           key={p.title}
@@ -1488,7 +1490,7 @@ export function Projects() {
                   </div>
                 </div>
               ) : active === "games" ? (
-                <div className="px-8 pb-28 pt-6 h-full">
+                <div className="px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full">
                   <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-blue-600/20 via-blue-900/40 to-black/80 p-4 h-full flex flex-col gap-4">
                     <div className="flex items-center justify-between text-white/70 text-xs">
                       <div className="flex items-center gap-2">
@@ -1501,7 +1503,7 @@ export function Projects() {
                       </div>
                     </div>
 
-                    <div className="flex gap-4 overflow-x-auto pb-2">
+                    <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2">
                       {PROJECTS.games.map((p, i) => (
                         <motion.div
                           key={p.title}
@@ -1601,7 +1603,7 @@ export function Projects() {
                   </div>
                 </div>
               ) : active === "ecommerce" ? (
-                <div className="px-8 pb-28 pt-6 h-full overflow-y-auto overscroll-contain min-h-0">
+                <div className="px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full overflow-y-auto overscroll-contain min-h-0">
                   <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/10 via-black/50 to-black/70 p-4 h-full flex flex-col gap-3 overflow-hidden min-h-0">
                     <div className="flex items-center justify-between text-xs text-white/60">
                       <div className="uppercase tracking-[0.35em]">Storefront</div>
@@ -1700,7 +1702,7 @@ export function Projects() {
                   </div>
                 </div>
               ) : active === "social" ? (
-                <div className="px-8 pb-28 pt-6 h-full">
+                <div className="px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full">
                   <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-pink-500/10 via-black/40 to-black/70 p-4 h-full flex flex-col gap-4">
                     <div className="flex items-center justify-between text-xs text-white/60">
                       <div className="uppercase tracking-[0.35em]">Social Feed</div>

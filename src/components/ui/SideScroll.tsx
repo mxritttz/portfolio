@@ -88,7 +88,7 @@ export const SideScroll = () => {
   return (
     <section
       ref={targetRef}
-      className="relative h-[560vh] w-full bg-neutral-50 text-neutral-950 max-w-full overflow-x-hidden"
+      className="relative h-[420vh] sm:h-[560vh] w-full bg-neutral-50 text-neutral-950 max-w-full overflow-x-hidden"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(236,72,153,0.16),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(147,197,253,0.12),transparent_50%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/0 to-white/30" />
@@ -97,7 +97,7 @@ export const SideScroll = () => {
           <motion.p
             ref={textRef}
             style={{ x: xSpring, skewX: skew, opacity }}
-            className="w-max pr-[20vw] origin-bottom-left whitespace-nowrap text-6xl md:text-8xl font-extrabold uppercase leading-[0.9] md:leading-[0.85] will-change-transform text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-purple-400 drop-shadow-[0_8px_24px_rgba(59,130,246,0.25)]"
+            className="w-max pr-[20vw] origin-bottom-left whitespace-nowrap text-4xl sm:text-6xl md:text-8xl font-extrabold uppercase leading-[0.9] md:leading-[0.85] will-change-transform text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-purple-400 drop-shadow-[0_8px_24px_rgba(59,130,246,0.25)]"
           >
             Creating incredible stuff, every single day.
           </motion.p>
@@ -109,13 +109,13 @@ export const SideScroll = () => {
               opacity: secondOpacity,
               y: secondY,
             }}
-            className="absolute left-1/2 top-20 -translate-x-1/2 w-max pr-[20vw] origin-bottom-left whitespace-nowrap text-5xl md:text-7xl font-extrabold uppercase leading-[0.9] md:leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-cyan-400 to-purple-400 drop-shadow-[0_8px_24px_rgba(236,72,153,0.2)]"
+            className="absolute left-1/2 top-16 sm:top-20 -translate-x-1/2 w-max pr-[20vw] origin-bottom-left whitespace-nowrap text-3xl sm:text-5xl md:text-7xl font-extrabold uppercase leading-[0.9] md:leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-cyan-400 to-purple-400 drop-shadow-[0_8px_24px_rgba(236,72,153,0.2)]"
           >
             Just one message away.
           </motion.p>
           <motion.p
             style={{ scale: subScale, y: subY, opacity: subOpacity }}
-            className="absolute left-1/2 top-6 -translate-x-1/2 text-2xl md:text-3xl font-extrabold tracking-[0.18em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] origin-top"
+            className="absolute left-1/2 top-4 sm:top-6 -translate-x-1/2 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-[0.18em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] origin-top"
           >
             Be part of it
           </motion.p>

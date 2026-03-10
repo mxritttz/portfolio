@@ -11,8 +11,8 @@ export default function IPhone() {
   const scale = useTransform(y, [0, -120], [1, 0.96]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="relative h-full aspect-[10/19.5] bg-black rounded-[2.5rem] shadow-xl overflow-hidden">
+    <div className="w-full h-full flex items-center justify-center px-4 py-6">
+      <div className="relative h-[70vh] sm:h-[80vh] md:h-full aspect-[10/19.5] max-w-[340px] sm:max-w-[380px] bg-black rounded-[2.5rem] shadow-xl overflow-hidden">
 
         {/* Notch */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-30" />
@@ -30,8 +30,8 @@ export default function IPhone() {
             }}
           >
             {/* Time */}
-            <div className="pt-20 flex flex-col items-center">
-              <p className="text-[4.5rem] font-semibold tracking-tight leading-none">
+            <div className="pt-16 sm:pt-20 flex flex-col items-center">
+              <p className="text-[3.2rem] sm:text-[4.5rem] font-semibold tracking-tight leading-none">
                 20:01
               </p>
               <p className="mt-1 text-sm opacity-80">
