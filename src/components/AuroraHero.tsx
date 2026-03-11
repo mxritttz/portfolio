@@ -71,7 +71,7 @@ export const AuroraHero = () => {
         <div className="relative">
           <div className="absolute inset-x-6 top-1/2 h-10 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-400/20 via-fuchsia-400/25 to-pink-400/20 blur-3xl" />
           <h1 className="relative text-4xl font-black uppercase tracking-[0.08em] leading-tight sm:text-5xl md:text-7xl lg:text-8xl">
-            <span className="bg-[linear-gradient(135deg,#ffffff_0%,#dbeafe_18%,#67e8f9_38%,#c084fc_62%,#f9a8d4_82%,#ffffff_100%)] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(103,232,249,0.2)]">
+            <span className="animate-vision-glow bg-[linear-gradient(135deg,#ffffff_0%,#dbeafe_18%,#67e8f9_38%,#c084fc_62%,#f9a8d4_82%,#ffffff_100%)] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(103,232,249,0.2)]">
               Moritz Renner
             </span>
           </h1>
@@ -115,6 +115,66 @@ export const AuroraHero = () => {
             View projects
           </motion.button>
         </div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-44 overflow-hidden sm:h-52">
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black via-black/75 to-transparent" />
+        <svg
+          viewBox="0 0 1440 260"
+          className="absolute inset-x-0 bottom-0 h-full w-full opacity-75"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="pyramidFillLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(103,232,249,0.18)" />
+              <stop offset="100%" stopColor="rgba(15,23,42,0.05)" />
+            </linearGradient>
+            <linearGradient id="pyramidFillRight" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(192,132,252,0.16)" />
+              <stop offset="100%" stopColor="rgba(15,23,42,0.04)" />
+            </linearGradient>
+            <linearGradient id="pyramidStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0.08)" />
+              <stop offset="50%" stopColor="rgba(103,232,249,0.32)" />
+              <stop offset="100%" stopColor="rgba(192,132,252,0.18)" />
+            </linearGradient>
+          </defs>
+
+          <g className="animate-hero-pyramids">
+            <g>
+              <polygon points="56,260 222,102 222,260" fill="url(#pyramidFillLeft)" stroke="url(#pyramidStroke)" strokeWidth="1.1" />
+              <polygon points="222,102 388,260 222,260" fill="url(#pyramidFillRight)" stroke="url(#pyramidStroke)" strokeWidth="1.1" />
+              <line x1="222" y1="102" x2="222" y2="260" stroke="rgba(255,255,255,0.14)" strokeWidth="0.9" />
+              <line x1="140" y1="181" x2="222" y2="102" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+              <line x1="222" y1="102" x2="304" y2="181" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+            </g>
+
+            <g>
+              <polygon points="318,260 544,46 544,260" fill="url(#pyramidFillLeft)" stroke="url(#pyramidStroke)" strokeWidth="1.2" />
+              <polygon points="544,46 786,260 544,260" fill="url(#pyramidFillRight)" stroke="url(#pyramidStroke)" strokeWidth="1.2" />
+              <line x1="544" y1="46" x2="544" y2="260" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+              <line x1="431" y1="153" x2="544" y2="46" stroke="rgba(255,255,255,0.09)" strokeWidth="0.85" />
+              <line x1="544" y1="46" x2="665" y2="153" stroke="rgba(255,255,255,0.09)" strokeWidth="0.85" />
+            </g>
+
+            <g>
+              <polygon points="742,260 930,128 930,260" fill="url(#pyramidFillLeft)" stroke="url(#pyramidStroke)" strokeWidth="1" />
+              <polygon points="930,128 1110,260 930,260" fill="url(#pyramidFillRight)" stroke="url(#pyramidStroke)" strokeWidth="1" />
+              <line x1="930" y1="128" x2="930" y2="260" stroke="rgba(255,255,255,0.11)" strokeWidth="0.8" />
+              <line x1="836" y1="194" x2="930" y2="128" stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />
+              <line x1="930" y1="128" x2="1020" y2="194" stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />
+            </g>
+
+            <g>
+              <polygon points="1036,260 1214,82 1214,260" fill="url(#pyramidFillLeft)" stroke="url(#pyramidStroke)" strokeWidth="1.1" />
+              <polygon points="1214,82 1394,260 1214,260" fill="url(#pyramidFillRight)" stroke="url(#pyramidStroke)" strokeWidth="1.1" />
+              <line x1="1214" y1="82" x2="1214" y2="260" stroke="rgba(255,255,255,0.13)" strokeWidth="0.9" />
+              <line x1="1125" y1="171" x2="1214" y2="82" stroke="rgba(255,255,255,0.08)" strokeWidth="0.75" />
+              <line x1="1214" y1="82" x2="1304" y2="171" stroke="rgba(255,255,255,0.08)" strokeWidth="0.75" />
+            </g>
+          </g>
+        </svg>
       </div>
 
       {/* 3D Stars (lazy) */}

@@ -56,8 +56,8 @@ export const Meteors = ({
             style={{
               top: "-40px",
               left: `${left}px`,
-              animationDelay: random() * 5 + "s",
-              animationDuration: `${random() * 5 + 5}s`,
+              animationDelay: random() * 7 + "s",
+              animationDuration: `${random() * 7 + 9}s`,
             }}
           />
         );

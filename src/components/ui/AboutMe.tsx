@@ -113,7 +113,46 @@ const SkeletonTwo2 = () => {
 
 const SkeletonThree = () => {
   return (
-    <motion.div className="h-full w-full flex flex-col items-center justify-center p-6 text-center gap-6">
+    <motion.div className="relative h-full w-full flex flex-col items-center justify-center p-6 text-center gap-6">
+      <div className="absolute right-4 top-4 scale-[0.68] origin-top-right opacity-80 sm:scale-[0.74]">
+        <div className="relative flex h-20 w-24 items-center justify-center [perspective:1100px]">
+          <div className="absolute inset-y-1 left-1/2 w-[2px] -translate-x-1/2 rounded-full bg-white/12" />
+          <div className="absolute inset-0 rounded-[18px] bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 blur-xl" />
+          <div className="absolute inset-y-0 left-[10px] w-[44px] rounded-l-[14px] rounded-r-[6px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_rgba(0,0,0,0.25)]" />
+          <div className="absolute inset-y-[7px] left-[17px] w-[30px] rounded-l-[9px] rounded-r-[4px] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(226,232,240,0.52))]" />
+          <div className="absolute inset-y-0 right-[10px] w-[44px] rounded-r-[14px] rounded-l-[6px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_rgba(0,0,0,0.2)]" />
+          <div className="absolute inset-y-[7px] right-[17px] w-[30px] rounded-r-[9px] rounded-l-[4px] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(226,232,240,0.52))]" />
+          <div className="absolute inset-y-[12px] right-[22px] w-[20px] space-y-1.5 opacity-55">
+            <div className="h-[2px] rounded-full bg-slate-500/35" />
+            <div className="h-[2px] rounded-full bg-slate-500/28" />
+            <div className="h-[2px] w-4/5 rounded-full bg-slate-500/22" />
+          </div>
+          <motion.div
+            className="absolute inset-y-0 left-1/2 w-[40px] origin-left"
+            animate={{ rotateY: [0, -152, 0] }}
+            transition={{ duration: 7.2, times: [0, 0.45, 1], ease: "easeInOut", repeat: Infinity, repeatDelay: 2.2 }}
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            <div className="absolute inset-0 rounded-[12px] border border-white/12 bg-[linear-gradient(180deg,rgba(241,245,249,0.96),rgba(203,213,225,0.82))] shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_20px_rgba(0,0,0,0.25)] [backface-visibility:hidden]" />
+            <div className="absolute inset-y-[7px] right-[6px] left-[6px] rounded-[8px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(226,232,240,0.78))] [backface-visibility:hidden]" />
+            <div className="absolute inset-y-[12px] left-[12px] right-[12px] space-y-1.5 opacity-70 [backface-visibility:hidden]">
+              <div className="h-[2px] rounded-full bg-slate-500/50" />
+              <div className="h-[2px] rounded-full bg-slate-500/35" />
+              <div className="h-[2px] w-3/4 rounded-full bg-slate-500/30" />
+            </div>
+            <div
+              className="absolute inset-0 rounded-[12px] border border-slate-200/85 bg-[linear-gradient(180deg,rgba(248,250,252,0.98),rgba(226,232,240,0.9))] shadow-[inset_0_1px_0_rgba(255,255,255,0.22)]"
+              style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
+            >
+              <div className="absolute inset-y-[10px] left-[10px] right-[10px] space-y-1.5 opacity-60">
+                <div className="h-[2px] rounded-full bg-slate-500/40" />
+                <div className="h-[2px] rounded-full bg-slate-500/32" />
+                <div className="h-[2px] w-4/5 rounded-full bg-slate-500/24" />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
       
       {/* Big Signal */}
       <div>
@@ -163,7 +202,28 @@ const SkeletonFour = () => {
  
 const SkeletonFive = () => {
   return (
-    <motion.div className="h-full w-full p-6 flex flex-col items-center justify-center text-center gap-6">
+    <motion.div className="relative h-full w-full p-6 flex flex-col items-center justify-center text-center gap-6">
+      <div className="absolute right-4 top-4 flex h-14 w-20 items-end justify-center gap-1.5 rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm">
+        {[
+          { height: "36%", delay: 0 },
+          { height: "62%", delay: 0.2 },
+          { height: "82%", delay: 0.45 },
+          { height: "52%", delay: 0.3 },
+        ].map((bar, index) => (
+          <motion.span
+            key={`build-bar-${index}`}
+            className="w-2 rounded-full bg-gradient-to-t from-cyan-400 via-sky-300 to-purple-400 shadow-[0_0_10px_rgba(56,189,248,0.2)]"
+            style={{ height: bar.height }}
+            animate={{ scaleY: [0.92, 1.08, 0.92], opacity: [0.72, 1, 0.72] }}
+            transition={{
+              duration: 3.8,
+              delay: bar.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
 
       {/* Big Signal */}
       <div>
@@ -229,7 +289,7 @@ const SkeletonFive2 = () => {
       <div className="absolute inset-0 grid place-items-center text-center px-6">
         <h3 className="text-3xl md:text-4xl font-semibold text-black dark:text-white leading-tight">
           Turning{" "}
-          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-400 to-purple-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.4)]">
+          <span className="animate-vision-glow font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-400 to-purple-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.4)]">
             vision
           </span>{" "}
           into reality.

@@ -189,3 +189,37 @@
 .animate-dock-bounce {
   animation: dock-bounce 1.2s ease-in-out;
 }
+
+@keyframes vision-glow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.22));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 18px rgba(96, 165, 250, 0.42));
+  }
+}
+
+.animate-vision-glow {
+  background-size: 200% 200%;
+  animation: vision-glow 5.4s ease-in-out infinite;
+}
+
+@keyframes hero-pyramids {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.82;
+    transform: translateY(-4px);
+  }
+}
+
+.animate-hero-pyramids {
+  transform-origin: center bottom;
+  animation: hero-pyramids 8.5s ease-in-out infinite;
+}
