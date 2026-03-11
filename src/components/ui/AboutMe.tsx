@@ -4,12 +4,12 @@ import React from "react";
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 import { motion } from "motion/react";
 import { GlowingEffect } from "./glowing-effect";
-import WorldMap from "./world-map";
 import { GlowingHeading } from "./GlowingHeading";
 import IPhone from "./iPhone";
 import Link from "next/link";
 import { ThreeDMarquee } from "./3d-marquee";
 import { marqueeImages } from "@/lib/marquee-images";
+import { AboutMeGlobe } from "./AboutMeGlobe";
 
 
  
@@ -152,34 +152,8 @@ const SkeletonThree = () => {
 const SkeletonFour = () => {
   return (
     <motion.div className="w-full h-full relative">
-      {/* Overlay Text */}
-      <motion.div
-        className="absolute top-6 left-1/2 -translate-x-1/2 z-10 text-center px-4 py-2 bg-black/50 dark:bg-white/20 rounded-xl backdrop-blur-sm"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <p className="text-white dark:text-cyan-400 text-lg md:text-xl font-semibold drop-shadow-lg">
-          Working across time zones 🌐
-        </p>
-        <p className="text-white/80 dark:text-cyan-200/70 text-sm mt-1 drop-shadow">
-          Building projects wherever I go — flexible & international
-        </p>
-      </motion.div>
-
-      {/* Map */}
-      <div className="absolute inset-x-0 -top-2 bottom-0 h-[82%] scale-[1.08] md:-top-3 md:h-[88%] md:scale-[1.1] origin-bottom">
-        <WorldMap
-          className="w-full h-full"
-          dots={[
-            { start: { lat: 64.2008, lng: -149.4937 }, end: { lat: 34.0522, lng: -118.2437 } },
-            { start: { lat: 64.2008, lng: -149.4937 }, end: { lat: -15.7975, lng: -47.8919 } },
-            { start: { lat: -15.7975, lng: -47.8919 }, end: { lat: 38.7223, lng: -9.1393 } },
-            { start: { lat: 51.5074, lng: -0.1278 }, end: { lat: 28.6139, lng: 77.209 } },
-            { start: { lat: 28.6139, lng: 77.209 }, end: { lat: 43.1332, lng: 131.9113 } },
-            { start: { lat: 28.6139, lng: 77.209 }, end: { lat: -1.2921, lng: 36.8219 } },
-          ]}
-        />
+      <div className="absolute inset-0 overflow-hidden rounded-2xl">
+        <AboutMeGlobe />
       </div>
     </motion.div>
   );
