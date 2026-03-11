@@ -57,7 +57,6 @@ export default function WorldMap({
         className
       )}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 dark:to-white/5 pointer-events-none" />
       <img
         loading="lazy"
         decoding="async"

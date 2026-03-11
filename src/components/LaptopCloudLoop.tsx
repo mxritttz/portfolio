@@ -11,7 +11,7 @@ export default function LaptopCloudLoop() {
           loop
           muted
           playsInline
-          className="w-[60%] aspect-[16/9] h-auto -translate-y-50 -translate-x-60 cloud-appear"
+          className="w-[60%] aspect-[16/9] h-auto -translate-y-56 -translate-x-60 cloud-appear"
         />
       </div>
     </div>

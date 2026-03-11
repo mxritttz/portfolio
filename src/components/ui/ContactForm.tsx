@@ -54,7 +54,10 @@ export function ContactForm() {
   }, [toast]);
 
   return (
-    <section className="relative w-full overflow-hidden py-14 sm:py-20 px-4 sm:px-6 bg-zinc-950 text-white">
+    <section
+      id="contact"
+      className="relative w-full overflow-hidden py-14 sm:py-20 px-4 sm:px-6 bg-zinc-950 text-white"
+    >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[90px]" />
         <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-sky-500/20 blur-[110px]" />
