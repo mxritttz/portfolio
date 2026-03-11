@@ -148,6 +148,8 @@ export const AuroraHero = () => {
               <line x1="222" y1="102" x2="222" y2="260" stroke="rgba(255,255,255,0.14)" strokeWidth="0.9" />
               <line x1="140" y1="181" x2="222" y2="102" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
               <line x1="222" y1="102" x2="304" y2="181" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+              <text x="136" y="214" fill="rgba(255,240,208,0.16)" fontSize="12.5" letterSpacing="4.2" transform="rotate(-40 136 214)">𓂀 𓆣 𓈖</text>
+              <text x="250" y="206" fill="rgba(255,240,208,0.1)" fontSize="10" letterSpacing="4" transform="rotate(41 250 206)">Δ Χ Φ</text>
             </g>
 
             <g>
@@ -156,6 +158,8 @@ export const AuroraHero = () => {
               <line x1="544" y1="46" x2="544" y2="260" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
               <line x1="431" y1="153" x2="544" y2="46" stroke="rgba(255,255,255,0.09)" strokeWidth="0.85" />
               <line x1="544" y1="46" x2="665" y2="153" stroke="rgba(255,255,255,0.09)" strokeWidth="0.85" />
+              <text x="420" y="198" fill="rgba(255,240,208,0.18)" fontSize="14.5" letterSpacing="4.8" transform="rotate(-42 420 198)">𓋹 𓎛 𓂋 𓏏</text>
+              <text x="586" y="191" fill="rgba(255,240,208,0.11)" fontSize="10.5" letterSpacing="4.1" transform="rotate(39 586 191)">Ω Σ Λ Θ</text>
             </g>
 
             <g>
@@ -164,6 +168,8 @@ export const AuroraHero = () => {
               <line x1="930" y1="128" x2="930" y2="260" stroke="rgba(255,255,255,0.11)" strokeWidth="0.8" />
               <line x1="836" y1="194" x2="930" y2="128" stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />
               <line x1="930" y1="128" x2="1020" y2="194" stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />
+              <text x="824" y="224" fill="rgba(255,240,208,0.12)" fontSize="10" letterSpacing="4" transform="rotate(-33 824 224)">Π Ψ Ν</text>
+              <text x="952" y="220" fill="rgba(255,240,208,0.1)" fontSize="9.5" letterSpacing="3.4" transform="rotate(34 952 220)">𓊽 𓇳</text>
             </g>
 
             <g>
@@ -172,6 +178,8 @@ export const AuroraHero = () => {
               <line x1="1214" y1="82" x2="1214" y2="260" stroke="rgba(255,255,255,0.13)" strokeWidth="0.9" />
               <line x1="1125" y1="171" x2="1214" y2="82" stroke="rgba(255,255,255,0.08)" strokeWidth="0.75" />
               <line x1="1214" y1="82" x2="1304" y2="171" stroke="rgba(255,255,255,0.08)" strokeWidth="0.75" />
+              <text x="1110" y="198" fill="rgba(255,240,208,0.15)" fontSize="12.5" letterSpacing="4.6" transform="rotate(-44 1110 198)">𓉔 𓃭 𓅓</text>
+              <text x="1244" y="199" fill="rgba(255,240,208,0.1)" fontSize="10" letterSpacing="3.8" transform="rotate(42 1244 199)">Ξ Τ Φ</text>
             </g>
           </g>
         </svg>

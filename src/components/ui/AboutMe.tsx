@@ -20,6 +20,34 @@ const images = marqueeImages;
 export function AboutMe() {
   return (
     <section className="relative w-full">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[12] h-56 overflow-hidden sm:h-64">
+        <svg
+          viewBox="0 0 1440 320"
+          className="absolute inset-x-0 top-0 h-full w-full opacity-95"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="aboutGuideStroke" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0.42)" />
+              <stop offset="45%" stopColor="rgba(103,232,249,0.32)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+            </linearGradient>
+          </defs>
+
+          <g className="animate-hero-pyramids">
+            <line x1="222" y1="0" x2="152" y2="320" stroke="url(#aboutGuideStroke)" strokeWidth="1.15" />
+            <line x1="544" y1="0" x2="438" y2="320" stroke="url(#aboutGuideStroke)" strokeWidth="1.25" />
+            <line x1="930" y1="0" x2="1016" y2="320" stroke="url(#aboutGuideStroke)" strokeWidth="1.05" />
+            <line x1="1214" y1="0" x2="1298" y2="320" stroke="url(#aboutGuideStroke)" strokeWidth="1.1" />
+
+            <line x1="238" y1="0" x2="188" y2="320" stroke="rgba(255,255,255,0.08)" strokeWidth="0.72" />
+            <line x1="560" y1="0" x2="470" y2="320" stroke="rgba(103,232,249,0.09)" strokeWidth="0.78" />
+            <line x1="914" y1="0" x2="986" y2="320" stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />
+            <line x1="1198" y1="0" x2="1264" y2="320" stroke="rgba(192,132,252,0.08)" strokeWidth="0.74" />
+          </g>
+        </svg>
+      </div>
       
       {/* Background Transition Layer */}
       <div
