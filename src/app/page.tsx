@@ -65,7 +65,7 @@ export default function Home() {
         <ThreeDMarquee images={images}/>
       </section> */}
 
-      <section id="skills" className="relative flex min-h-screen items-center justify-center snap-center pt-40">
+      <section id="skills" className="relative flex min-h-screen items-center justify-center snap-center pt-56">
         <Skills />
       </section>
 
