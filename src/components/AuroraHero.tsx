@@ -20,6 +20,13 @@ export const AuroraHero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
+      if (id === "side-scroll" && typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("portfolio:skip-project-lock", {
+            detail: { duration: 2200 },
+          })
+        );
+      }
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -95,7 +102,7 @@ export const AuroraHero = () => {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <motion.button
             type="button"
-            onClick={() => scrollToSection("contact")}
+            onClick={() => scrollToSection("side-scroll")}
             style={{ border, boxShadow }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -17,6 +17,7 @@ export const ContainerScroll = ({
   const isLockedRef = useRef(false);
   const canLockRef = useRef(true);
   const animFrameRef = useRef<number | null>(null);
+  const skipLockUntilRef = useRef(0);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -38,6 +39,16 @@ export const ContainerScroll = ({
   const translate = useTransform(scrollYProgress, [0, 0.22, 1], [0, -18, -100]);
 
   useEffect(() => {
+    const handleSkipLock = (event: Event) => {
+      const customEvent = event as CustomEvent<{ duration?: number }>;
+      const duration = customEvent.detail?.duration ?? 1800;
+      skipLockUntilRef.current = Date.now() + duration;
+      isLockedRef.current = false;
+      canLockRef.current = false;
+    };
+
+    window.addEventListener("portfolio:skip-project-lock", handleSkipLock as EventListener);
+
     const handleWindowScroll = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
@@ -46,10 +57,15 @@ export const ContainerScroll = ({
       const distance = Math.abs(elementCenter - viewportCenter);
       const threshold = window.innerHeight * 0.45;
       const intersectsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+      const skipLock = Date.now() < skipLockUntilRef.current;
 
       const isOutOfView = rect.bottom < 0 || rect.top > window.innerHeight;
       if (isOutOfView) {
         isLockedRef.current = false;
+        return;
+      }
+
+      if (skipLock) {
         return;
       }
 
@@ -93,6 +109,10 @@ export const ContainerScroll = ({
     window.addEventListener("resize", handleWindowScroll);
 
     return () => {
+      window.removeEventListener(
+        "portfolio:skip-project-lock",
+        handleSkipLock as EventListener
+      );
       window.removeEventListener("scroll", handleWindowScroll);
       window.removeEventListener("resize", handleWindowScroll);
       if (animFrameRef.current) {
@@ -133,7 +153,7 @@ export const Header = ({
       style={{
         translateY: translate,
       }}
-      className="div max-w-5xl mx-auto text-center"
+      className="relative z-10 max-w-5xl mx-auto text-center"
     >
       {titleComponent}
     </motion.div>
@@ -158,7 +178,7 @@ export const Card = ({
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-7xl -mt-6 sm:-mt-12 mx-auto h-[32rem] sm:h-[38rem] md:h-[46rem] w-full border-4 border-[#6C6C6C] p-2 md:p-4 bg-[#000000] rounded-[30px] shadow-2xl"
+      className="relative z-20 max-w-7xl -mt-6 sm:-mt-12 mx-auto h-[32rem] sm:h-[38rem] md:h-[46rem] w-full border-4 border-[#6C6C6C] p-2 md:p-4 bg-[#000000] rounded-[30px] shadow-2xl"
     >
       <div className="h-full w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl">
         {children}
