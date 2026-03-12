@@ -48,11 +48,13 @@ export const SideScroll = () => {
   const introYRaw = useTransform(scrollYProgress, [0, 0.35], [0, -36]);
   const introY = useSpring(introYRaw, { stiffness: 80, damping: 26 });
 
-  const headingFontSizeRaw = useTransform(scrollYProgress, [0.3, 0.58], [20, 84]);
-  const headingFontSize = useSpring(headingFontSizeRaw, { stiffness: 110, damping: 32 });
-  const headingYRaw = useTransform(scrollYProgress, [0.3, 0.58], [110, -12]);
+  const headingScaleRaw = useTransform(scrollYProgress, [0.26, 0.6], [0.18, 1]);
+  const headingScale = useSpring(headingScaleRaw, { stiffness: 105, damping: 30 });
+  const headingYRaw = useTransform(scrollYProgress, [0.28, 0.6], [120, -18]);
   const headingY = useSpring(headingYRaw, { stiffness: 110, damping: 32 });
-  const headingOpacity = useTransform(scrollYProgress, [0.22, 0.3, 0.82, 1], [0, 1, 1, 0.92]);
+  const headingOpacity = useTransform(scrollYProgress, [0.2, 0.28, 0.82, 1], [0, 1, 1, 0.92]);
+  const headingLetterSpacingRaw = useTransform(scrollYProgress, [0.26, 0.6], [0.22, 0.03]);
+  const headingLetterSpacing = useSpring(headingLetterSpacingRaw, { stiffness: 110, damping: 32 });
 
   const formOpacityRaw = useTransform(scrollYProgress, [0.58, 0.72, 1], [0, 1, 1]);
   const formOpacity = useSpring(formOpacityRaw, { stiffness: 90, damping: 30 });
@@ -204,7 +206,7 @@ export const SideScroll = () => {
         isActive ? "overflow-y-scroll" : "overflow-y-hidden"
       }`}
     >
-      <section className={`relative w-full ${SECTION_HEIGHT}`}>
+      <section className={`relative w-full ${SECTION_HEIGHT} pb-20 sm:pb-28`}>
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(236,72,153,0.16),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(147,197,253,0.12),transparent_50%)]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/0 to-white/30" />
         <div className="sticky top-0 flex min-h-screen items-center overflow-visible py-8">
@@ -217,8 +219,14 @@ export const SideScroll = () => {
               Creating incredible stuff, every single day.
             </motion.p>
             <motion.p
-              style={{ fontSize: headingFontSize, y: headingY, opacity: headingOpacity, lineHeight: 0.9 }}
-              className="absolute left-1/2 top-[28vh] z-30 -translate-x-1/2 text-center font-extrabold uppercase tracking-[0.18em] text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] [text-rendering:geometricPrecision] [backface-visibility:hidden] will-change-[font-size,transform,opacity]"
+              style={{
+                scale: headingScale,
+                y: headingY,
+                opacity: headingOpacity,
+                lineHeight: 0.9,
+                letterSpacing: `${headingLetterSpacing}em`,
+              }}
+              className="absolute left-1/2 top-[28vh] z-30 -translate-x-1/2 origin-center whitespace-nowrap text-center text-[3.2rem] sm:text-[4.6rem] md:text-[6.8rem] font-extrabold uppercase text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] [text-rendering:geometricPrecision] [backface-visibility:hidden] will-change-transform"
             >
               Be part of it
             </motion.p>
