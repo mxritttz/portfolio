@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
-import { LayoutTextFlip } from "./layout-text-flip";
 import { FlipWords } from "./flip-words";
 import { StickyScroll } from "./sticky-scroll-reveal";
-import LaptopCloudLoop from "../LaptopCloudLoop";
 import { SkillBars } from "./SkillBars";
 import AIAnimation from "./AIAnimation";
 import FrontendAnimation from "./FrontendAnimation";
@@ -33,27 +31,27 @@ const sticky = [
     description: (
       <div className="space-y-6">
         <p className="text-xl text-slate-200">
-          In a rapidly evolving tech landscape, I utilize generative AI (LLMs) not just as a tool, but as a strategic partner. My focus is on massively accelerating workflows and developing innovative features that go beyond standard solutions.
+          I use AI to speed up research, concepting, content, and feature delivery.
         </p>
         <p className="text-base text-slate-300">
-          I consciously deploy AI to shorten design iterations, optimize code snippets, and maximize efficiency across all phases of product development and content creation.
+          My focus is practical: shorter iteration loops, faster prototyping, and better output across product and creative work.
         </p>
         <SkillBars
           skills={[
             {
-              name: "Use of GenAI for Ideation & Efficiency",
+              name: "GenAI for Ideation & Workflow Speed",
               level: 85,
               experience: "2+ years experience",
               tag: "Expert",
             },
             {
-              name: "AI Tools for Media Creation (Sora/Firefly)",
+              name: "AI Tools for Visual Media",
               level: 75,
               experience: "2+ years experience",
               tag: "Advanced",
             },
             {
-              name: "Product Strategy & Mapping",
+              name: "Feature Thinking & Product Mapping",
               level: 70,
               experience: "1+ year experience",
               tag: "Advanced",
@@ -75,10 +73,10 @@ const sticky = [
     description: (
       <div className="space-y-6">
         <p className="text-xl text-slate-200">
-          My goal is to build applications that don't just work, but delight. I create high-performance, intuitive interfaces and use motion design to make the user experience smoother and more engaging.
+          I build polished interfaces that feel fast, clear, and intentional.
         </p>
         <p className="text-base text-slate-300">
-          I'm experienced in modern frameworks like React/Next.js (typed with TypeScript) and can quickly adapt to established enterprise environments like Angular. Connecting dynamic endpoints, including LLM APIs, is an integral part of my frontend architecture.
+          My focus is strong UI, smooth interaction, and clean frontend architecture in React, Next.js, and TypeScript.
         </p>
         <SkillBars
           skills={[
@@ -89,7 +87,7 @@ const sticky = [
               tag: "Expert",
             },
             {
-              name: "HTML / CSS / Angular (Proficiency)",
+              name: "UI Implementation / CSS / Angular",
               level: 80,
               experience: "3+ years experience",
               tag: "Advanced",
@@ -124,15 +122,15 @@ const sticky = [
     description: (
       <div className="space-y-6">
         <p className="text-xl text-slate-200">
-          A strong product requires a robust backbone. I ensure reliable server-side logic, efficient data management, and clean, versioned API interfaces.
+          I build the server-side foundation behind products: APIs, data flows, and integrations.
         </p>
         <p className="text-base text-slate-300">
-          The focus is on scalability through Node.js and serverless approaches. I master common tools for deployment and version control (Git, Docker) to ensure seamless continuous delivery pipelines and product stability.
+          The goal is reliability and scalability through clean API design, structured data handling, and solid deployment workflows.
         </p>
         <SkillBars
           skills={[
             {
-              name: "Node.js / Serverless (APIs)",
+              name: "Node.js / Serverless APIs",
               level: 80,
               experience: "2+ years experience",
               tag: "Advanced",
@@ -166,10 +164,10 @@ const sticky = [
     description: (
       <div className="space-y-6">
         <p className="text-xl text-slate-200">
-          I bridge the gap between development and market. The ability to tell visual stories and optimize content for social platforms is crucial for product success and brand building.
+          I turn products into content people actually notice.
         </p>
         <p className="text-base text-slate-300">
-          I master the entire process: from strategic content ideation and filming to final video editing with tools like CapCut and Final Cut Pro. This helps me build digital reach and present products effectively.
+          That includes ideation, filming, editing, and adapting content for platforms where design, story, and reach all matter.
         </p>
         <SkillBars
           skills={[
@@ -208,10 +206,10 @@ const sticky = [
     description: (
       <div className="space-y-6">
         <p className="text-xl text-slate-200">
-          <span className="font-bold text-cyan-400">Active Learning Field:</span> My goal is to understand digital business models and build value chains independently—from idea to transaction.
+          <span className="font-bold text-cyan-400">Active learning field:</span> I’m building a stronger understanding of how products turn into revenue.
         </p>
         <p className="text-base text-slate-300">
-          I am actively acquiring knowledge in building custom Shopify stores (Liquid) and logistics (Print-on-Demand/Dropshipping). This deepens my understanding of conversion optimization and the interplay between code and revenue.
+          Right now that means Shopify, conversion basics, and fulfillment models like print-on-demand.
         </p>
         <SkillBars
           skills={[
@@ -250,10 +248,10 @@ const sticky = [
     description: (
       <div className="space-y-6">
         <p className="text-xl text-slate-200">
-          <span className="font-bold text-cyan-400">Active Learning Field:</span> Music production is my creative outlet. This discipline trains my technical ear and fosters my ability to structure and complete complex, detail-oriented projects (Mixing/Sound Design).
+          <span className="font-bold text-cyan-400">Active learning field:</span> Music production sharpens my creative instincts and attention to detail.
         </p>
         <p className="text-base text-slate-300">
-          I am actively working to deepen my skills in music production and audio engineering, primarily utilizing Logic Pro.
+          I’m currently developing my workflow in Logic Pro, with a focus on production, mixing, and sound design basics.
         </p>
         <SkillBars
           skills={[
