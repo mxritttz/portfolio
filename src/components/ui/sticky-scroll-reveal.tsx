@@ -13,11 +13,11 @@ export const StickyScroll = ({
 }) => {
   const [activeCard, setActiveCard] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const containerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const isLockedRef = useRef(false);
   const canLockRef = useRef(true);
-  const lastScrollTopRef = useRef(0);
   const lastLockAtRef = useRef(0);
+  const unlockDirectionRef = useRef<"up" | "down" | null>(null);
 
   const gradients = [
     "linear-gradient(to bottom right, #06b6d4, #10b981)",
@@ -25,25 +25,7 @@ export const StickyScroll = ({
     "linear-gradient(to bottom right, #f97316, #eab308)",
   ];
 
-  const skillWords = [
-    "BUILD",
-    "DESIGN",
-    "DO",
-    "LOVE",
-    "CARE ABOUT",
-    "THINK",
-    "CREATE",
-    "EXPLORE",
-    "IMAGINE",
-    "BELIEVE IN",
-    "DREAM ABOUT",
-  ];
-
-  const [bgGradient, setBgGradient] = useState(gradients[0]);
-
-  useEffect(() => {
-    setBgGradient(gradients[activeCard % gradients.length]);
-  }, [activeCard]);
+  const bgGradient = gradients[activeCard % gradients.length];
 
   const handleScroll = () => {
     if (!containerRef.current) return;
@@ -54,7 +36,7 @@ export const StickyScroll = ({
     let currentIndex = 0;
     let minDistance = Number.POSITIVE_INFINITY;
 
-    sections.forEach((section: any, idx: number) => {
+    sections.forEach((section, idx) => {
       const sectionCenter = section.offsetTop + section.clientHeight / 2;
       const distance = Math.abs(center - sectionCenter);
       if (distance < minDistance) {
@@ -64,22 +46,39 @@ export const StickyScroll = ({
     });
 
     setActiveCard(currentIndex);
-    lastScrollTopRef.current = scrollTop;
+  };
+
+  const lockSection = () => {
+    isLockedRef.current = true;
+    canLockRef.current = true;
+    unlockDirectionRef.current = null;
+    setIsActive(true);
+  };
+
+  const unlockSection = (direction: "up" | "down") => {
+    isLockedRef.current = false;
+    canLockRef.current = false;
+    unlockDirectionRef.current = direction;
+    setIsActive(false);
   };
 
   useEffect(() => {
     const handleWindowScroll = () => {
       if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      const { current: element } = containerRef;
+      const rect = element.getBoundingClientRect();
       const viewportCenter = window.innerHeight / 2;
       const elementCenter = rect.top + rect.height / 2;
       const distance = Math.abs(elementCenter - viewportCenter);
       const threshold = window.innerHeight * 0.16;
       const intersectsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
-
       const isOutOfView = rect.bottom < 0 || rect.top > window.innerHeight;
+      const passedAbove = rect.bottom < viewportCenter;
+      const passedBelow = rect.top > viewportCenter;
+
       if (isOutOfView) {
         canLockRef.current = true;
+        unlockDirectionRef.current = null;
         if (isLockedRef.current) {
           isLockedRef.current = false;
           setIsActive(false);
@@ -87,8 +86,18 @@ export const StickyScroll = ({
         return;
       }
 
-      if (!canLockRef.current && distance > threshold * 1.8) {
-        canLockRef.current = true;
+      if (!canLockRef.current) {
+        const canRelockAfterDown = unlockDirectionRef.current === "down" && passedAbove;
+        const canRelockAfterUp = unlockDirectionRef.current === "up" && passedBelow;
+
+        if (canRelockAfterDown || canRelockAfterUp) {
+          canLockRef.current = true;
+          unlockDirectionRef.current = null;
+        }
+
+        if (unlockDirectionRef.current === null && distance > threshold * 1.8) {
+          canLockRef.current = true;
+        }
       }
 
       const now = Date.now();
@@ -99,8 +108,7 @@ export const StickyScroll = ({
         distance <= threshold &&
         now - lastLockAtRef.current > 700
       ) {
-        isLockedRef.current = true;
-        setIsActive(true);
+        lockSection();
         lastLockAtRef.current = now;
         const target =
           window.scrollY +
@@ -125,18 +133,44 @@ export const StickyScroll = ({
       ref={containerRef}
       onScroll={handleScroll}
       onWheel={(e) => {
-        if (!containerRef.current || !isLockedRef.current) return;
-        const el = containerRef.current;
+        if (!containerRef.current) return;
+        const { current: el } = containerRef;
+        const rect = el.getBoundingClientRect();
+        const viewportCenter = window.innerHeight / 2;
+        const intersectsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
         const atTop = el.scrollTop <= 0;
         const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
-        if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) {
-          isLockedRef.current = false;
-          canLockRef.current = false;
-          setIsActive(false);
+        const pageAtTop = window.scrollY <= 1;
+        const pageAtBottom =
+          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1;
+
+        const shouldRelockFromBottom =
+          !isLockedRef.current &&
+          intersectsCenter &&
+          unlockDirectionRef.current === "down" &&
+          e.deltaY < 0;
+        const shouldRelockFromTop =
+          !isLockedRef.current &&
+          intersectsCenter &&
+          unlockDirectionRef.current === "up" &&
+          e.deltaY > 0;
+
+        if (shouldRelockFromBottom || shouldRelockFromTop) {
+          lockSection();
+          return;
+        }
+
+        if (!isLockedRef.current) return;
+
+        const shouldUnlockUp = e.deltaY < 0 && atTop && !pageAtTop;
+        const shouldUnlockDown = e.deltaY > 0 && atBottom && !pageAtBottom;
+
+        if (shouldUnlockUp || shouldUnlockDown) {
+          unlockSection(e.deltaY > 0 ? "down" : "up");
         }
       }}
       className={cn(
-        "relative w-full h-[80vh] sm:h-screen snap-y snap-mandatory",
+        "relative w-full h-[80vh] sm:h-screen snap-y snap-mandatory overscroll-contain",
         isActive ? "overflow-y-scroll" : "overflow-y-hidden"
         ,className
       )}
@@ -180,7 +214,7 @@ export const StickyScroll = ({
 
           {/* RIGHT SIDE STICKY CONTENT */}
           <div className="w-full md:w-[30%] flex items-center justify-center h-full">
-            <div className="sticky top-1/2 -translate-y-1/2">
+            <div className="sticky top-1/2 -translate-y-[42%]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCard}
