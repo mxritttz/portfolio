@@ -164,7 +164,7 @@ const PROJECTS: Record<string, any[]> = {
     {
   type: "comet",
   title: "ChatApp-Messanger",
-  image: "/images/ChatApp.png",
+  image: "/images/chatApp copy.png",
   description: "A sleek messaging app with full emoji support and privacy-first design.",
   customContent: (
     <div className="relative h-full w-full text-white p-6 space-y-10
@@ -256,7 +256,7 @@ const PROJECTS: Record<string, any[]> = {
     {
   type: "comet",
   title: "AI Image Playground",
-  image: "/images/imagehub.png",
+  image: "/images/AIImagePlayground.png",
   description: "Client-only AI image tools running fully in the browser.",
   customContent: <AIImagePlayground />,
 },
@@ -270,7 +270,7 @@ const PROJECTS: Record<string, any[]> = {
     {
       type: "comet",
       title: "MyOwnRAG",
-      image: "/images/RAG.png",
+      image: "/images/RAG copy.png",
       description: "Classic Retrieval-Augmented Generation that connects uploaded PDFs with OpenAIs ChatGPT.",
       customContent: (
   <div className="relative flex flex-col h-full w-full overflow-y-auto text-white p-6 space-y-6
@@ -350,7 +350,7 @@ const PROJECTS: Record<string, any[]> = {
     {
       type: "comet",
       title: "Meet",
-      image: "/images/Meet.png",
+      image: "/images/Meet copy.png",
       description: "Simple software that lets users find and join groups for different activities.",
       customContent: (
   <div className="relative flex flex-col h-full w-full overflow-y-auto text-white p-6 space-y-6
@@ -435,7 +435,7 @@ const PROJECTS: Record<string, any[]> = {
     {
   type: "comet",
   title: "Decision Helper",
-  image: "/images/DecisionHelper.png",
+  image: "/images/DecisionHelper copy.png",
   description: "Modern portfolio website template.",
   customContent: (() => {
     const DecisionHelperWrapper = () => {
@@ -787,7 +787,7 @@ const PROJECTS: Record<string, any[]> = {
     {
       type: "comet",
       title: "mxritttz",
-      image: "/images/ChatApp.png",
+      image: "/images/chatApp copy.png",
       description: "Personal social profile + content hub.",
       customContent: (
         <div className="w-full space-y-5 text-white">
@@ -847,7 +847,7 @@ const PROJECTS: Record<string, any[]> = {
 function ProjectCard({ project, onClick, compact = false }: any) {
   const baseClass = "cursor-pointer";
   const compactClass = compact
-    ? "w-[36vw] sm:w-[20vw] md:w-[10vw] h-[18vh] sm:h-[20vh]"
+    ? "w-[30vw] sm:w-[16.5vw] md:w-[8vw] h-[14.5vh] sm:h-[16.5vh]"
     : "w-[70vw] sm:w-[40vw] md:w-[17vw] h-[36vh] sm:h-[42vh] p-4";
 
   if (project.type === "3d") {
@@ -1126,51 +1126,64 @@ export function Projects() {
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-black" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(99,102,241,0.45),transparent_45%),radial-gradient(circle_at_85%_15%,rgba(236,72,153,0.35),transparent_45%),radial-gradient(circle_at_50%_90%,rgba(14,165,233,0.35),transparent_45%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_28%,rgba(255,255,255,0.08))]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.18),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(125,211,252,0.32),transparent_38%),radial-gradient(circle_at_82%_18%,rgba(196,181,253,0.26),transparent_34%),radial-gradient(circle_at_50%_88%,rgba(244,114,182,0.18),transparent_36%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_24%,rgba(255,255,255,0.05)_68%,rgba(255,255,255,0.1))]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(255,255,255,0.22),transparent_48%)]" />
+            <div className="absolute inset-0 opacity-[0.16] bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.35)_50%,transparent_100%)] [background-size:220px_100%]" />
 
-            <div className="relative z-10 flex h-full flex-col justify-between px-8 py-10 text-white">
-              <div className="flex items-start justify-end">
-                <div className="flex items-center gap-2 text-xs text-white/60">
+            <div className="relative z-10 flex h-full flex-col justify-between px-8 py-8 text-white md:px-10 md:py-9">
+              <div className="flex items-start justify-between text-[11px] uppercase tracking-[0.28em] text-white/55">
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 backdrop-blur-md">
+                  unlocked apps
+                </span>
+                <div className="flex items-center gap-2">
                   <span className="h-1.5 w-4 rounded-full bg-white/70" />
                   <span className="h-1.5 w-3 rounded-full bg-white/60" />
                   <span className="h-1.5 w-2 rounded-full bg-white/50" />
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-4">
-                <div className="text-8xl md:text-[6.5rem] font-semibold drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+              <div className="flex flex-col items-center gap-3 pt-3">
+                <div className="text-[5.6rem] md:text-[7.5rem] font-medium tracking-[-0.04em] leading-none drop-shadow-[0_14px_30px_rgba(0,0,0,0.42)]">
                   {timeLabel}
                 </div>
-                <div className="text-base uppercase tracking-[0.5em] text-white/70">
+                <div className="text-sm md:text-base tracking-[0.32em] text-white/65">
                   {dateLabel}
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-white/15 bg-gradient-to-br from-white/20 via-white/5 to-white/10 backdrop-blur-xl px-4 py-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)]">
-                <div className="text-[11px] uppercase tracking-[0.35em] text-white/70">
-                  Notifications
-                </div>
-                <div className="mt-2 flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="h-8 w-8 rounded-2xl bg-gradient-to-br from-pink-400 via-fuchsia-500 to-indigo-500 shadow-[0_10px_20px_rgba(236,72,153,0.4)]" />
+              <div className="grid grid-cols-2 gap-4 px-1">
+                <div className="rounded-[2rem] border border-white/12 bg-white/[0.07] px-5 py-4 backdrop-blur-2xl shadow-[0_18px_50px_rgba(0,0,0,0.28)]">
+                  <div className="text-[11px] uppercase tracking-[0.32em] text-white/55">
+                    Focus
+                  </div>
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="h-8 w-8 rounded-2xl bg-gradient-to-br from-cyan-400 via-sky-400 to-indigo-500 shadow-[0_8px_18px_rgba(56,189,248,0.35)]" />
                     <div>
-                      <div className="font-semibold">Projects</div>
-                      <div className="text-white/70 text-xs">There is so much to explore</div>
+                      <div className="text-sm font-semibold">Project Library</div>
+                      <div className="text-xs text-white/60">Ready to explore</div>
                     </div>
                   </div>
-                  <div className="flex h-full items-start">
-                    <span className="text-xs text-white/60 leading-none mt-0.5">now</span>
+                </div>
+                <div className="rounded-[2rem] border border-white/12 bg-white/[0.07] px-5 py-4 backdrop-blur-2xl shadow-[0_18px_50px_rgba(0,0,0,0.28)]">
+                  <div className="text-[11px] uppercase tracking-[0.32em] text-white/55">
+                    Status
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-2xl font-semibold tracking-tight">7 apps</div>
+                    <div className="mt-1 text-xs text-white/60">Web apps available now</div>
+                    <div className="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
+                      <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-violet-400" />
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col items-center gap-3 text-white/70">
-                <div className="relative h-10 w-60 rounded-full border border-white/25 bg-white/10 px-2 flex items-center overflow-hidden">
+                <div className="relative h-11 w-72 rounded-full border border-white/20 bg-white/[0.08] px-2 flex items-center overflow-hidden backdrop-blur-xl shadow-[0_20px_45px_rgba(0,0,0,0.28)]">
                   <motion.div
                     aria-hidden
-                    className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.0),rgba(255,255,255,0.25),rgba(255,255,255,0.0))] opacity-70"
+                    className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.0),rgba(255,255,255,0.22),rgba(255,255,255,0.0))] opacity-70"
                     animate={{ x: lockDragging ? 0 : ["-40%", "40%"] }}
                     transition={
                       lockDragging
@@ -1178,8 +1191,8 @@ export function Projects() {
                         : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
                     }
                   />
-                  <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-[0.35em] text-white/60">
-                    slide to unlock →
+                  <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-[0.32em] text-white/55">
+                    swipe across to open
                   </div>
                   <motion.div
                     drag="x"
@@ -1210,6 +1223,7 @@ export function Projects() {
                     →
                   </motion.div>
                 </div>
+                <div className="h-1.5 w-28 rounded-full bg-white/30" />
               </div>
             </div>
           </motion.div>
@@ -1229,6 +1243,12 @@ export function Projects() {
           Lock
         </button>
       )}
+      <div className="pointer-events-none absolute inset-x-0 top-2 z-40 flex justify-center">
+        <div className="flex items-center gap-2 rounded-full border border-black/8 bg-white/55 px-3 py-1 shadow-[0_4px_18px_rgba(0,0,0,0.08)] backdrop-blur-md dark:border-white/10 dark:bg-black/35">
+          <span className="h-2.5 w-2.5 rounded-full bg-neutral-900 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] dark:bg-neutral-100" />
+          <span className="h-1.5 w-8 rounded-full bg-neutral-900/80 dark:bg-neutral-100/80" />
+        </div>
+      </div>
       {/* iPad-like status bar */}
       <div className="absolute top-0 inset-x-0 z-30 h-10 px-4 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-300 pointer-events-none">
         <span>{timeLabel}</span>

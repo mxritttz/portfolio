@@ -76,11 +76,11 @@ export default function Home() {
       <section id="side-scroll" className="relative w-full">
         <SideScroll />
       </section>
-
+{/* 
       <section id="iphone" className="relative flex min-h-screen flex-col md:flex-row items-center justify-center gap-8 px-4">
         <IPhone />
         <TravelAnimation />
-      </section>
+      </section> */}
 
       
 

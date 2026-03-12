@@ -33,9 +33,9 @@ export const ContainerScroll = ({
     return isMobile ? [0.7, 0.9] : [1.05, 1];
   };
 
-  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const rotate = useTransform(scrollYProgress, [0, 0.22, 1], [20, 0, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.22, 1], [...scaleDimensions(), 1]);
+  const translate = useTransform(scrollYProgress, [0, 0.22, 1], [0, -18, -100]);
 
   useEffect(() => {
     const handleWindowScroll = () => {
@@ -62,7 +62,7 @@ export const ContainerScroll = ({
         canLockRef.current = false;
         const start = window.scrollY;
         const target =
-          start + rect.top - (window.innerHeight / 2 - rect.height / 2);
+          start + rect.top - Math.max(24, window.innerHeight * 0.08);
         const duration = 500;
         const startTime = performance.now();
 
@@ -121,7 +121,13 @@ export const ContainerScroll = ({
   );
 };
 
-export const Header = ({ translate, titleComponent }: any) => {
+export const Header = ({
+  translate,
+  titleComponent,
+}: {
+  translate: MotionValue<number>;
+  titleComponent: string | React.ReactNode;
+}) => {
   return (
     <motion.div
       style={{
@@ -154,7 +160,7 @@ export const Card = ({
       }}
       className="max-w-7xl -mt-6 sm:-mt-12 mx-auto h-[32rem] sm:h-[38rem] md:h-[46rem] w-full border-4 border-[#6C6C6C] p-2 md:p-4 bg-[#000000] rounded-[30px] shadow-2xl"
     >
-      <div className=" h-full w-full  overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl  ">
+      <div className="h-full w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl">
         {children}
       </div>
     </motion.div>
