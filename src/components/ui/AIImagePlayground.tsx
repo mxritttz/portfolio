@@ -25,11 +25,7 @@ export default function AIImagePlayground() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
   const [isProcessingAI, setIsProcessingAI] = useState(false);
-  const [aiMask, setAiMask] = useState<{
-    data: Uint8ClampedArray;
-    width: number;
-    height: number;
-  } | null>(null);
+  const [aiExportMask, setAiExportMask] = useState<Uint8ClampedArray | null>(null);
   const [maskStrength, setMaskStrength] = useState(1);
   const [invertMask, setInvertMask] = useState(false);
   const [aiPreview, setAiPreview] = useState<"blur" | "transparent" | "mask" | "glow">("blur");
@@ -100,7 +96,7 @@ export default function AIImagePlayground() {
       img.onload = () => {
         sourceRef.current = img;
         renderInstant(img, strength);
-        setAiMask(null);
+        setAiExportMask(null);
         if (!modelTriggered) {
           startLoading();
           setModelTriggered(true);
@@ -116,15 +112,15 @@ export default function AIImagePlayground() {
       const img = new Image();
       img.onload = () => {
         sourceRef.current = img;
-        setImageUrl("/Lisbon2.jpg");
+        setImageUrl("/images/image.png");
         renderInstant(img, strength);
-        setAiMask(null);
+        setAiExportMask(null);
         if (!modelTriggered) {
           startLoading();
           setModelTriggered(true);
         }
       };
-      img.src = "/Lisbon2.jpg";
+      img.src = "/images/image.png";
     },
     [modelTriggered, renderInstant, startLoading, strength]
   );
@@ -146,8 +142,6 @@ export default function AIImagePlayground() {
 
     try {
       const mask = await runSegmentation(imageData, feather);
-      setAiMask(mask);
-      const output = ctx.createImageData(width, height);
       let sum = 0;
       let sumSq = 0;
       for (let i = 0; i < mask.data.length; i += 1) {
@@ -161,6 +155,7 @@ export default function AIImagePlayground() {
       if (avg < 4 || std < 2) {
         renderInstant(img, strength);
         setLastAction("Instant Effects");
+        setAiExportMask(null);
         return;
       }
       const previewMode = aiPreview;
@@ -174,30 +169,8 @@ export default function AIImagePlayground() {
         if (v > max) max = v;
       }
       const range = Math.max(1, max - min);
-      const boost = 1.0 + strengthValue;
-      const baseAlpha = 200;
       const binaryThreshold = Math.round(min + range * 0.45);
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        const raw = invert ? 255 - mask.data[i / 4] : mask.data[i / 4];
-        const norm = (raw - min) / range;
-        const softAlpha = Math.max(0, Math.min(255, (baseAlpha + Math.pow(norm, 0.4) * 140) * boost));
-        const hardAlpha = raw >= binaryThreshold ? 255 : 0;
-        const alpha = previewMode === "transparent" ? hardAlpha : softAlpha;
-        output.data[i] = imageData.data[i];
-        output.data[i + 1] = imageData.data[i + 1];
-        output.data[i + 2] = imageData.data[i + 2];
-        output.data[i + 3] = alpha;
-      }
       ctx.clearRect(0, 0, width, height);
-      const maskImage = ctx.createImageData(width, height);
-      for (let i = 0; i < mask.data.length; i += 1) {
-        const v = invert ? 255 - mask.data[i] : mask.data[i];
-        const idx = i * 4;
-        maskImage.data[idx] = 255;
-        maskImage.data[idx + 1] = 255;
-        maskImage.data[idx + 2] = 255;
-        maskImage.data[idx + 3] = v;
-      }
 
       // build binary masks (normal + inverted) and pick the more reasonable one
       const buildMask = (useInvert: boolean) => {
@@ -229,9 +202,70 @@ export default function AIImagePlayground() {
       // warning based on the chosen binary mask
       if (chosenMask.ratio < 0.02 || chosenMask.ratio > 0.98) {
         setAiWarning("AI mask is weak on this image — try another photo.");
+        setAiExportMask(null);
       } else {
         setAiWarning(null);
+        setAiExportMask(chosenMask.bin);
       }
+
+      const softMask = new Uint8ClampedArray(mask.data.length);
+      for (let i = 0; i < mask.data.length; i += 1) {
+        const raw = invert ? 255 - mask.data[i] : mask.data[i];
+        const norm = Math.max(0, Math.min(1, (raw - min) / range));
+        softMask[i] = Math.round(Math.pow(norm, 0.8) * 255);
+      }
+
+      const buildCanvasFromMask = (alphaMask: Uint8ClampedArray) => {
+        const maskCanvas = document.createElement("canvas");
+        maskCanvas.width = width;
+        maskCanvas.height = height;
+        const maskCtx = maskCanvas.getContext("2d");
+        if (!maskCtx) return null;
+        const maskPreview = maskCtx.createImageData(width, height);
+        for (let i = 0; i < alphaMask.length; i += 1) {
+          const v = alphaMask[i];
+          const idx = i * 4;
+          maskPreview.data[idx] = 255;
+          maskPreview.data[idx + 1] = 255;
+          maskPreview.data[idx + 2] = 255;
+          maskPreview.data[idx + 3] = v;
+        }
+        maskCtx.putImageData(maskPreview, 0, 0);
+        return maskCanvas;
+      };
+
+      const buildCutoutCanvas = (alphaMask: Uint8ClampedArray) => {
+        const cutoutCanvas = document.createElement("canvas");
+        cutoutCanvas.width = width;
+        cutoutCanvas.height = height;
+        const cutoutCtx = cutoutCanvas.getContext("2d");
+        const maskCanvas = buildCanvasFromMask(alphaMask);
+        if (!cutoutCtx || !maskCanvas) return null;
+        cutoutCtx.clearRect(0, 0, width, height);
+        cutoutCtx.drawImage(img, 0, 0, width, height);
+        cutoutCtx.globalCompositeOperation = "destination-in";
+        cutoutCtx.drawImage(maskCanvas, 0, 0);
+        cutoutCtx.globalCompositeOperation = "source-over";
+        return cutoutCanvas;
+      };
+
+      const edgeMask = new Uint8ClampedArray(chosenMask.bin.length);
+      for (let y = 1; y < height - 1; y += 1) {
+        for (let x = 1; x < width - 1; x += 1) {
+          const idx = y * width + x;
+          if (!chosenMask.bin[idx]) continue;
+          const hasOutsideNeighbor =
+            chosenMask.bin[idx - 1] === 0 ||
+            chosenMask.bin[idx + 1] === 0 ||
+            chosenMask.bin[idx - width] === 0 ||
+            chosenMask.bin[idx + width] === 0;
+          edgeMask[idx] = hasOutsideNeighbor ? 255 : 0;
+        }
+      }
+
+      const cutoutCanvas = buildCutoutCanvas(chosenMask.bin);
+      const softCutoutCanvas = buildCutoutCanvas(softMask);
+      const edgeCanvas = buildCanvasFromMask(edgeMask);
 
       // draw original image as base for all AI previews (so it never becomes flat)
       if (previewMode !== "mask") {
@@ -240,7 +274,7 @@ export default function AIImagePlayground() {
 
       if (previewMode === "mask") {
         const maskPreview = ctx.createImageData(width, height);
-        for (let i = 0; i < mask.data.length; i += 1) {
+        for (let i = 0; i < chosenMask.bin.length; i += 1) {
           const bw = chosenMask.bin[i];
           const idx = i * 4;
           maskPreview.data[idx] = bw;
@@ -251,129 +285,83 @@ export default function AIImagePlayground() {
         ctx.putImageData(maskPreview, 0, 0);
       } else {
         if (previewMode === "transparent") {
-          // clean cutout preview on a solid backdrop
-          ctx.fillStyle = "rgba(8, 10, 14, 0.9)";
+          ctx.fillStyle = "#0b1220";
+          ctx.fillRect(0, 0, width, height);
+          const tile = Math.max(18, Math.round(Math.min(width, height) / 18));
+          for (let y = 0; y < height; y += tile) {
+            for (let x = 0; x < width; x += tile) {
+              ctx.fillStyle = (Math.floor(x / tile) + Math.floor(y / tile)) % 2 === 0 ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.02)";
+              ctx.fillRect(x, y, tile, tile);
+            }
+          }
+        } else if (previewMode === "blur") {
+          ctx.save();
+          ctx.filter = `blur(${52 + strengthValue * 36}px) saturate(0.48) brightness(0.42)`;
+          ctx.drawImage(img, 0, 0, width, height);
+          ctx.restore();
+          ctx.fillStyle = "rgba(4,8,16,0.3)";
           ctx.fillRect(0, 0, width, height);
         } else {
-          ctx.filter = "blur(24px) saturate(0.9) brightness(0.75)";
           ctx.drawImage(img, 0, 0, width, height);
-          ctx.filter = "none";
+          ctx.fillStyle = "rgba(6,10,18,0.46)";
+          ctx.fillRect(0, 0, width, height);
         }
         if (previewMode === "transparent") {
-          // hard cutout from binary mask: white keeps, black removes
           if (chosenMask.ratio < 0.02 || chosenMask.ratio > 0.98) {
             ctx.drawImage(img, 0, 0, width, height);
-          } else {
-            const maskCanvas = document.createElement("canvas");
-            maskCanvas.width = width;
-            maskCanvas.height = height;
-            const maskCtx = maskCanvas.getContext("2d");
-            if (maskCtx) {
-              const maskPreview = maskCtx.createImageData(width, height);
-              for (let i = 0; i < chosenMask.bin.length; i += 1) {
-                const v = chosenMask.bin[i];
-                const idx = i * 4;
-                maskPreview.data[idx] = v;
-                maskPreview.data[idx + 1] = v;
-                maskPreview.data[idx + 2] = v;
-                maskPreview.data[idx + 3] = 255;
-              }
-              maskCtx.putImageData(maskPreview, 0, 0);
-            }
-
-            const cutoutCanvas = document.createElement("canvas");
-            cutoutCanvas.width = width;
-            cutoutCanvas.height = height;
-            const cutoutCtx = cutoutCanvas.getContext("2d");
-            if (cutoutCtx) {
-              cutoutCtx.clearRect(0, 0, width, height);
-              cutoutCtx.drawImage(img, 0, 0, width, height);
-              cutoutCtx.globalCompositeOperation = "destination-in";
-              cutoutCtx.drawImage(maskCanvas, 0, 0);
-              cutoutCtx.globalCompositeOperation = "source-over";
-              ctx.drawImage(cutoutCanvas, 0, 0);
-            }
-          }
-        } else if (previewMode === "glow") {
-          // glow outline: blur mask and colorize, keep original image visible
-          const glowCanvas = document.createElement("canvas");
-          glowCanvas.width = width;
-          glowCanvas.height = height;
-          const glowCtx = glowCanvas.getContext("2d");
-          if (glowCtx) {
-            glowCtx.putImageData(maskImage, 0, 0);
-            glowCtx.globalCompositeOperation = "source-in";
-            glowCtx.fillStyle = "rgba(236,72,153,0.9)";
-            glowCtx.fillRect(0, 0, width, height);
-            ctx.save();
-            ctx.filter = "blur(18px)";
-            ctx.drawImage(glowCanvas, 0, 0);
-            ctx.restore();
-          }
-
-          const cutoutCanvas = document.createElement("canvas");
-          cutoutCanvas.width = width;
-          cutoutCanvas.height = height;
-          const cutoutCtx = cutoutCanvas.getContext("2d");
-          if (cutoutCtx) {
-            cutoutCtx.clearRect(0, 0, width, height);
-            const cutout = new ImageData(width, height);
-            for (let i = 0; i < imageData.data.length; i += 4) {
-              const raw = invert ? 255 - mask.data[i / 4] : mask.data[i / 4];
-              if (raw >= binaryThreshold) {
-                cutout.data[i] = imageData.data[i];
-                cutout.data[i + 1] = imageData.data[i + 1];
-                cutout.data[i + 2] = imageData.data[i + 2];
-                cutout.data[i + 3] = 255;
-              } else {
-                cutout.data[i] = 0;
-                cutout.data[i + 1] = 0;
-                cutout.data[i + 2] = 0;
-                cutout.data[i + 3] = 0;
-              }
-            }
-            cutoutCtx.putImageData(cutout, 0, 0);
-            ctx.save();
-            ctx.globalCompositeOperation = "source-over";
+          } else if (cutoutCanvas) {
             ctx.drawImage(cutoutCanvas, 0, 0);
-            ctx.restore();
           }
-        } else {
-          const cutoutCanvas = document.createElement("canvas");
-          cutoutCanvas.width = width;
-          cutoutCanvas.height = height;
-          const cutoutCtx = cutoutCanvas.getContext("2d");
-          if (cutoutCtx) {
-            cutoutCtx.clearRect(0, 0, width, height);
-            const cutout = new ImageData(width, height);
-            for (let i = 0; i < imageData.data.length; i += 4) {
-              const alpha = output.data[i + 3];
-              if (alpha > 0) {
-                cutout.data[i] = imageData.data[i];
-                cutout.data[i + 1] = imageData.data[i + 1];
-                cutout.data[i + 2] = imageData.data[i + 2];
-                cutout.data[i + 3] = 255;
-              } else {
-                cutout.data[i] = 0;
-                cutout.data[i + 1] = 0;
-                cutout.data[i + 2] = 0;
-                cutout.data[i + 3] = 0;
-              }
-            }
-            cutoutCtx.putImageData(cutout, 0, 0);
+        } else if (previewMode === "blur") {
+          if (chosenMask.ratio < 0.02 || chosenMask.ratio > 0.98) {
+            ctx.drawImage(img, 0, 0, width, height);
+          } else if (softCutoutCanvas) {
             ctx.save();
             ctx.shadowColor = "rgba(0,0,0,0.35)";
-            ctx.shadowBlur = 22;
-            ctx.drawImage(cutoutCanvas, 0, 0);
+            ctx.shadowBlur = 26;
+            ctx.drawImage(softCutoutCanvas, 0, 0);
             ctx.restore();
-            ctx.drawImage(cutoutCanvas, 0, 0);
+            ctx.drawImage(softCutoutCanvas, 0, 0);
           }
+        } else if (previewMode === "glow") {
+          if (edgeCanvas) {
+            const glowCanvas = document.createElement("canvas");
+            glowCanvas.width = width;
+            glowCanvas.height = height;
+            const glowCtx = glowCanvas.getContext("2d");
+            if (glowCtx) {
+              glowCtx.drawImage(edgeCanvas, 0, 0);
+              glowCtx.globalCompositeOperation = "source-in";
+              glowCtx.fillStyle = "rgba(56,189,248,1)";
+              glowCtx.fillRect(0, 0, width, height);
+            }
+            ctx.save();
+            ctx.globalAlpha = 1;
+            ctx.filter = "blur(24px)";
+            ctx.drawImage(glowCanvas, 0, 0);
+            ctx.restore();
+            ctx.drawImage(glowCanvas, 0, 0);
+          }
+          if (edgeCanvas) {
+            ctx.save();
+            ctx.globalAlpha = 0.65;
+            ctx.drawImage(edgeCanvas, 0, 0);
+            ctx.restore();
+          }
+        } else if (cutoutCanvas) {
+          ctx.save();
+          ctx.shadowColor = "rgba(0,0,0,0.45)";
+          ctx.shadowBlur = 28;
+          ctx.drawImage(cutoutCanvas, 0, 0);
+          ctx.restore();
+          ctx.drawImage(cutoutCanvas, 0, 0);
         }
       }
       setLastAction("AI Background Removal");
     } catch {
       renderInstant(img, strength);
       setLastAction("Instant Effects");
+      setAiExportMask(null);
     } finally {
       setIsProcessingAI(false);
     }
@@ -388,6 +376,7 @@ export default function AIImagePlayground() {
       if (next === "instant") {
         renderInstant(img, strength);
         setLastAction("Instant Effects");
+        setAiExportMask(null);
       } else if (canAI) {
         renderAI();
       } else {
@@ -422,7 +411,7 @@ export default function AIImagePlayground() {
       if (!canvas) return;
       setExporting(true);
       const quality = format === "jpg" ? 0.92 : 1;
-      if (format === "png" && mode === "ai" && aiMask && sourceRef.current) {
+      if (format === "png" && mode === "ai" && aiPreview === "transparent" && aiExportMask && sourceRef.current) {
         const img = sourceRef.current;
         const { width, height } = fitToMax(img.naturalWidth || img.width, img.naturalHeight || img.height, MAX_PREVIEW_SIZE);
         const exportCanvas = document.createElement("canvas");
@@ -433,7 +422,7 @@ export default function AIImagePlayground() {
           exportCtx.drawImage(img, 0, 0, width, height);
           const imageData = exportCtx.getImageData(0, 0, width, height);
           for (let i = 0; i < imageData.data.length; i += 4) {
-            imageData.data[i + 3] = aiMask.data[i / 4];
+            imageData.data[i + 3] = aiExportMask[i / 4];
           }
           exportCtx.putImageData(imageData, 0, 0);
           exportCanvas.toBlob((blob) => {
@@ -465,7 +454,7 @@ export default function AIImagePlayground() {
         quality
       );
     },
-    [aiMask, mode]
+    [aiExportMask, aiPreview, mode]
   );
 
   const hasImage = Boolean(imageUrl);
@@ -615,7 +604,7 @@ export default function AIImagePlayground() {
                   <button
                     key={item.key}
                   onClick={() => {
-                    setAiPreview(item.key as "blur" | "transparent" | "mask");
+                    setAiPreview(item.key as "blur" | "transparent" | "mask" | "glow");
                   }}
                     className={cn(
                       "rounded-xl border px-3 py-2",
