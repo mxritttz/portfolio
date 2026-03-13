@@ -243,9 +243,10 @@ self.onmessage = async (event: MessageEvent<Incoming>) => {
 
       const resized = resizeMask(chosen.maskData, chosen.outW, chosen.outH, width, height);
       const feathered = softBlur(resized, width, height, feather * 8);
-      self.postMessage({ type: "mask", data: feathered, width, height }, [feathered.buffer]);
-    } catch (error: any) {
-      const message = error?.message || error?.toString?.() || "AI inference failed.";
+      self.postMessage({ type: "mask", data: feathered, width, height });
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : String(error || "AI inference failed.");
       postError(message);
     }
   }

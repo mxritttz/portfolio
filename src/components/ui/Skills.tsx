@@ -307,6 +307,8 @@ export function Skills() {
         <StickyScroll
           content={sticky}
           className="h-screen w-full"
+          contentClassName=""
+          sectionClassName=""
           textClassName="pt-16 sm:pt-24"
         />
       </div>

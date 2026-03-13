@@ -18,6 +18,17 @@ import { AboutMeGlobe } from "./AboutMeGlobe";
 const images = marqueeImages;
  
 export function AboutMe() {
+  const gridItems = items as Array<{
+    title?: React.ReactNode;
+    description?: React.ReactNode;
+    header: React.ReactNode;
+    className?: string;
+    containerClassName?: string;
+    headerClassName?: string;
+    contentClassName?: string;
+    icon?: React.ReactNode;
+  }>;
+
   return (
     <section className="relative w-full">
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[12] h-56 overflow-hidden sm:h-64">
@@ -73,7 +84,7 @@ export function AboutMe() {
           gap-4 sm:gap-5
           md:auto-rows-[18.5rem]
         ">
-          {items.map((item, i) => (
+          {gridItems.map((item, i) => (
             <BentoGridItem
               key={i}
               title={item.title}

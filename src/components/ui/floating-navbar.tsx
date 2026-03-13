@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import type { ReactNode } from "react";
 
 export const FloatingNav = ({
   navItems,
   className,
 }: {
-  navItems: { name: string; link: string; icon?: JSX.Element }[];
+  navItems: { name: string; link: string; icon?: ReactNode }[];
   className?: string;
 }) => {
   const { scrollYProgress } = useScroll();

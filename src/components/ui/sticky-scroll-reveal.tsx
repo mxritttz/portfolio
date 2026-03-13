@@ -4,12 +4,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
+type StickyContentItem = {
+  title: React.ReactNode;
+  description: React.ReactNode;
+  content: React.ReactNode;
+};
+
 export const StickyScroll = ({
   content,
   contentClassName,
   className,
   sectionClassName,
   textClassName,
+}: {
+  content: StickyContentItem[];
+  contentClassName?: string;
+  className?: string;
+  sectionClassName?: string;
+  textClassName?: string;
 }) => {
   const [activeCard, setActiveCard] = useState(0);
   const [isActive, setIsActive] = useState(false);
@@ -175,7 +187,7 @@ export const StickyScroll = ({
         ,className
       )}
     >
-      {content.map((item, idx) => (
+      {content.map((item: StickyContentItem, idx: number) => (
         <section
           key={idx}
           className={cn(

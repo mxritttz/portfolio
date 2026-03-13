@@ -63,7 +63,7 @@ export default function MusicLab() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const vizWrapRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
-  const vizDataRef = useRef<Uint8Array>(new Uint8Array(0));
+  const vizDataRef = useRef<Uint8Array<ArrayBuffer>>(new Uint8Array(new ArrayBuffer(0)));
   const startVizRef = useRef<(() => void) | null>(null);
   const lastAudioRef = useRef(0);
   const suspendTimerRef = useRef<number | null>(null);
@@ -502,11 +502,9 @@ export default function MusicLab() {
       const analyser = analyserRef.current;
       if (analyser) {
         if (vizDataRef.current.length !== analyser.frequencyBinCount) {
-          vizDataRef.current = new Uint8Array(analyser.frequencyBinCount);
+          vizDataRef.current = new Uint8Array(new ArrayBuffer(analyser.frequencyBinCount));
         }
-        if (vizDataRef.current.length) {
-          analyser.getByteFrequencyData(vizDataRef.current);
-        }
+        if (vizDataRef.current.length) analyser.getByteFrequencyData(vizDataRef.current);
       }
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;

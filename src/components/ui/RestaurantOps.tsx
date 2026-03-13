@@ -432,7 +432,7 @@ export default function RestaurantOps() {
                     ["4", "Ready for pickup", "Almost done. You can head over soon.", false],
                   ].map(([step, title, copy, active]) => (
                     <div
-                      key={title}
+                      key={String(title)}
                       className={`rounded-[1.5rem] border p-5 ${
                         active
                           ? "border-emerald-400/35 bg-emerald-400/10"
