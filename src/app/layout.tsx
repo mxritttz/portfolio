@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { SiteFooter } from "@/components/ui/SiteFooter";
 
 export const metadata: Metadata = {
   title: {
@@ -45,6 +46,7 @@ export default function RootLayout({
           enableSystem
         >
           {children}
+          <SiteFooter />
         </ThemeProvider>
       </body>
     </html>

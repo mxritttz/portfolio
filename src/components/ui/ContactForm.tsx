@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export function ContactForm() {
@@ -122,7 +123,7 @@ export function ContactForm() {
                   name="name"
                   value={formState.name}
                   onChange={handleChange}
-                  placeholder="Dein Name"
+                  placeholder="Your name"
                   required
                   className="w-full rounded-2xl border border-white/10 bg-zinc-950/60 px-4 py-3 text-white outline-none ring-0 transition focus:border-emerald-400/60 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.2)]"
                 />
@@ -134,18 +135,18 @@ export function ContactForm() {
                   name="email"
                   value={formState.email}
                   onChange={handleChange}
-                  placeholder="dein@email.de"
+                  placeholder="your@email.com"
                   required
                   className="w-full rounded-2xl border border-white/10 bg-zinc-950/60 px-4 py-3 text-white outline-none ring-0 transition focus:border-emerald-400/60 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.2)]"
                 />
               </label>
               <label className="space-y-2 text-sm text-zinc-300">
-                Nachricht
+                Message
                 <textarea
                   name="message"
                   value={formState.message}
                   onChange={handleChange}
-                  placeholder="Erzähl mir kurz von deinem Projekt..."
+                  placeholder="Tell me a bit about your project..."
                   rows={6}
                   required
                   className="w-full rounded-2xl border border-white/10 bg-zinc-950/60 px-4 py-3 text-white outline-none ring-0 transition focus:border-emerald-400/60 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.2)]"
@@ -164,6 +165,14 @@ export function ContactForm() {
                 <span className="absolute -left-8 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-white/30 blur-2xl" />
               </span>
             </button>
+            <p className="text-center text-xs leading-5 text-zinc-400">
+              By submitting this form, you agree to the processing of your data in accordance with
+              the{" "}
+              <Link href="/datenschutz" className="text-zinc-200 underline underline-offset-4 transition hover:text-white">
+                privacy policy
+              </Link>
+              .
+            </p>
           </form>
           {toast && (
             <div
