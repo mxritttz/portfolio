@@ -1968,15 +1968,15 @@ export function Projects() {
                         className="rounded-3xl border border-white/10 bg-black/40 p-3 flex flex-col gap-3 overflow-y-auto min-h-0 h-full"
                       >
                         <div className="text-xs uppercase tracking-[0.3em] text-white/50">Projects</div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid h-1/2 flex-none auto-rows-fr content-start grid-cols-2 gap-3">
                           {PROJECTS.ecommerce.map((project) => (
-                            <div key={project.title} className="flex">
+                            <div key={project.title} className="flex items-start">
                               <button
                                 onClick={() => {
                                   setGridVisible(false);
                                   setSelectedProject(project);
                                 }}
-                                className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 text-left w-full min-h-[78px] flex flex-col"
+                                className="group relative h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 text-left w-full min-h-[78px] flex flex-col"
                               >
                                 <div className="h-[38%] w-full overflow-hidden">
                                   <img
@@ -1994,8 +1994,8 @@ export function Projects() {
                               </button>
                             </div>
                           ))}
-                          <div className="flex">
-                            <div className="relative rounded-2xl overflow-hidden border border-dashed border-white/15 bg-white/[0.04] text-left w-full min-h-[78px] flex flex-col justify-between p-3">
+                          <div className="flex items-start">
+                            <div className="relative h-full rounded-2xl overflow-hidden border border-dashed border-white/15 bg-white/[0.04] text-left w-full min-h-[78px] flex flex-col justify-between p-3">
                               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
                               <div className="relative">
                                 <div className="text-[10px] uppercase tracking-[0.28em] text-white/45">
