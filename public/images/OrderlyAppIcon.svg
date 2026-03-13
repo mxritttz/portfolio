@@ -1,0 +1,43 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+  <rect x="34" y="34" width="956" height="956" rx="196" stroke="rgba(255,255,255,0.16)" stroke-width="10"/>
+  <g filter="url(#glow)">
+    <rect x="118" y="152" width="788" height="720" rx="92" fill="url(#panel)"/>
+  </g>
+  <rect x="188" y="240" width="648" height="268" rx="56" fill="rgba(255,255,255,0.94)"/>
+  <rect x="246" y="312" width="78" height="78" rx="22" fill="#081733"/>
+  <path d="M285 326L271 360H288L279 392L304 352H287L296 326H285Z" fill="#3B82F6"/>
+  <text x="356" y="372" fill="#0F172A" font-family="Arial, sans-serif" font-size="72" font-weight="700">Orderly</text>
+  <text x="356" y="408" fill="#94A3B8" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="0.22em">AI ORDER MANAGEMENT</text>
+  <rect x="190" y="560" width="300" height="178" rx="38" fill="rgba(8,23,51,0.82)" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
+  <rect x="534" y="560" width="300" height="178" rx="38" fill="rgba(8,23,51,0.82)" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
+  <rect x="232" y="610" width="120" height="18" rx="9" fill="#FB7185"/>
+  <rect x="232" y="644" width="168" height="14" rx="7" fill="rgba(255,255,255,0.32)"/>
+  <rect x="232" y="676" width="136" height="14" rx="7" fill="rgba(255,255,255,0.18)"/>
+  <rect x="576" y="610" width="132" height="18" rx="9" fill="#34D399"/>
+  <rect x="576" y="644" width="166" height="14" rx="7" fill="rgba(255,255,255,0.32)"/>
+  <rect x="576" y="676" width="124" height="14" rx="7" fill="rgba(255,255,255,0.18)"/>
+  <rect x="232" y="794" width="560" height="40" rx="20" fill="rgba(255,255,255,0.08)"/>
+  <rect x="232" y="794" width="244" height="40" rx="20" fill="url(#progress)"/>
+  <defs>
+    <linearGradient id="bg" x1="92" y1="68" x2="944" y2="956" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F123D"/>
+      <stop offset="0.5" stop-color="#071A3A"/>
+      <stop offset="1" stop-color="#0A3B46"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="138" y1="170" x2="890" y2="866" gradientUnits="userSpaceOnUse">
+      <stop stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="1" stop-color="rgba(255,255,255,0.04)"/>
+    </linearGradient>
+    <linearGradient id="progress" x1="232" y1="814" x2="476" y2="814" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="0.5" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+    <filter id="glow" x="82" y="116" width="860" height="792" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="18" result="effect1_foregroundBlur_1_1"/>
+    </filter>
+  </defs>
+</svg>

@@ -9,6 +9,7 @@ import DecisionHelper from "./DecisionHelper";
 import TradingApp from "./TradingApp";
 import AIImagePlayground from "./AIImagePlayground";
 import MusicLab from "./MusicLab";
+import RestaurantOps from "./RestaurantOps";
 import {
   IconApps,
   IconWorldWww,
@@ -262,6 +263,219 @@ const PROJECTS: Record<string, any[]> = {
 },
     {
   type: "comet",
+  title: "Orderly",
+  image: "/images/OrderlyAppIcon.svg",
+  description:
+    "Restaurant order management with online checkout, Telegram bot flows, live tracking, and status-based operations.",
+  customContent: (() => {
+    const OrderlyWrapper = () => {
+      const [showApp, setShowApp] = useState(false);
+
+      return (
+        <div className="relative h-full w-full">
+          <AnimatePresence mode="wait">
+            {!showApp ? (
+              <motion.div
+                key="preview"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35 }}
+                className="relative flex h-full w-full flex-col overflow-y-auto p-6 text-white"
+              >
+                <div className="relative z-10 flex flex-col gap-6">
+                  <div className="relative flex flex-col gap-4 text-center">
+                    <div className="absolute left-0 top-0 hidden xl:block">
+                      <div className="overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/95 shadow-[0_18px_60px_rgba(0,0,0,0.25)]">
+                        <img
+                          src="/images/OrderlyLogo.png"
+                          alt="Orderly logo"
+                          className="h-24 w-auto object-contain sm:h-28"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center xl:hidden">
+                      <div className="overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/95 shadow-[0_18px_60px_rgba(0,0,0,0.25)]">
+                        <img
+                          src="/images/OrderlyLogo.png"
+                          alt="Orderly logo"
+                          className="h-24 w-auto object-contain sm:h-28"
+                        />
+                      </div>
+                    </div>
+                    <div className="inline-flex items-center self-center gap-2 rounded-full border border-orange-300/20 bg-orange-300/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.34em] text-orange-100">
+                      Restaurant Operations Platform
+                    </div>
+                    <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Orderly</h2>
+                    <p className="mx-auto max-w-3xl text-base leading-relaxed text-gray-300">
+                      Multi-channel ordering system for restaurants with direct online checkout,
+                      Telegram bot flows, live customer tracking, and one central ops dashboard for
+                      the team.
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {[
+                        "Node.js",
+                        "React",
+                        "PostgreSQL",
+                        "Telegram Bot API",
+                        "Role-based Dashboard",
+                        "Live Tracking",
+                      ].map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 px-4 py-1.5 text-sm font-semibold text-slate-950 shadow-md transition hover:scale-105"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-6">
+                    <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl">
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <div className="text-[11px] uppercase tracking-[0.32em] text-white/45">
+                            Product Mockups
+                          </div>
+                          <div className="mt-2 text-2xl font-bold">Across ops dashboard, checkout, and live tracking</div>
+                        </div>
+                        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70">
+                          Real mockups
+                        </div>
+                      </div>
+
+                      <div className="mt-5 space-y-5">
+                        <div className="mx-auto w-[72%] overflow-hidden rounded-[2rem] border border-white/10 bg-black/20 shadow-[0_32px_90px_rgba(0,0,0,0.38)]">
+                          <img
+                            src="/images/MockupAll.png"
+                            alt="Orderly multi-device platform overview"
+                            className="h-auto w-full object-cover"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.72fr_1fr]">
+                          <div className="grid grid-cols-1 gap-5">
+                            <div className="overflow-hidden rounded-[1.9rem] border border-white/10 bg-black/20 shadow-[0_28px_80px_rgba(0,0,0,0.28)]">
+                              <img
+                                src="/images/OrderlyFlow copy.png"
+                                alt="Orderly operations overview"
+                                className="h-auto w-full object-cover"
+                              />
+                            </div>
+                            <div className="overflow-hidden rounded-[1.9rem] border border-white/10 bg-black/20 shadow-[0_28px_80px_rgba(0,0,0,0.28)]">
+                              <img
+                                src="/images/OrderlyOrder.png"
+                                alt="Orderly direct ordering checkout"
+                                className="h-auto w-full object-cover"
+                              />
+                            </div>
+                          </div>
+                          <div className="self-start">
+                            <div className="overflow-hidden rounded-[1.7rem] border border-white/10 bg-black/20 shadow-[0_24px_70px_rgba(0,0,0,0.24)]">
+                              <img
+                                src="/images/TelegramBot-portrait.png"
+                                alt="Orderly Telegram bot portrait mockup"
+                                className="h-auto w-full object-cover"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+                      <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">
+                        <div className="text-[11px] uppercase tracking-[0.32em] text-white/45">
+                          Why It Matters
+                        </div>
+                        <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-300">
+                          <p>
+                            Restaurants get a single system for checkout, reservations, Telegram
+                            automation, and operational order handling instead of juggling multiple
+                            disconnected tools.
+                          </p>
+                          <p>
+                            Customers can order online, receive live pickup tracking, or reserve
+                            tables through chat. Staff sees every request inside one status-based
+                            workflow.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">
+                        <div className="text-[11px] uppercase tracking-[0.32em] text-white/45">
+                          Core Modules
+                        </div>
+                        <div className="mt-4 grid grid-cols-1 gap-3">
+                          {[
+                            "Ops dashboard for incoming orders and fulfillment states",
+                            "Direct order page with clean checkout and ETA display",
+                            "Telegram bot for ordering and table reservations",
+                            "Customer live-tracking page after checkout",
+                            "Future AI voice agent for phone-based orders",
+                          ].map((item) => (
+                            <div
+                              key={item}
+                              className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/72"
+                            >
+                              {item}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="rounded-[2rem] border border-fuchsia-300/15 bg-fuchsia-300/[0.08] p-5">
+                        <div className="text-[11px] uppercase tracking-[0.32em] text-fuchsia-100/80">
+                          Build Direction
+                        </div>
+                        <div className="mt-3 text-sm leading-relaxed text-fuchsia-50/85">
+                          Built as a product-focused restaurant workflow concept with React on the
+                          frontend, Node.js services for orchestration, Telegram integrations, and a
+                          roadmap toward AI-assisted call intake.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center pt-2">
+                    <div className="flex flex-col items-center gap-3 text-center">
+                      <button
+                        onClick={() => setShowApp(true)}
+                        className="rounded-2xl bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-400 px-8 py-3 font-bold text-slate-950 shadow-lg transition hover:scale-[1.02] hover:shadow-xl"
+                      >
+                        Open demo
+                      </button>
+                      <p className="max-w-2xl text-sm leading-relaxed text-white/55">
+                        This demo is a visualized product walkthrough, not the full live system. It
+                        is meant to show how Orderly works across dashboard, checkout, and tracking.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="app"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.3 }}
+                className="relative h-full w-full"
+              >
+                <RestaurantOps />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      );
+    };
+
+    return <OrderlyWrapper />;
+  })(),
+},
+    {
+  type: "comet",
   title: "NachtsWach.Demo",
   image: "/images/musiclab.png",
   description: "Browser sampler + 16-step sequencer for building beats.",
@@ -319,7 +533,7 @@ const PROJECTS: Record<string, any[]> = {
       <div className="w-full sm:w-3/4 h-72 rounded-xl overflow-hidden shadow-2xl
                       transform transition-transform duration-500 hover:scale-105 bg-white/70 dark:bg-white/5 border border-white/40 dark:border-white/10 flex items-center justify-center">
         <img
-          src="/RAG1.png"
+          src="/images/RAG copy 2.png"
           alt="MyOwnRAG UI"
           className="w-full h-full object-contain p-2"
         />
