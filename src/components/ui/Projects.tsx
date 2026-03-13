@@ -996,13 +996,108 @@ const PROJECTS: Record<string, any[]> = {
   ),
 }
 ],
-  ecommerce: [{ type: "comet", title: "Print on Demand", image: "/images/PrintOnDemand.svg", description: "E-commerce engine with analytics." }],
+  ecommerce: [{
+    type: "comet",
+    title: "Print on Demand",
+    image: "/images/PrintOnDemand.svg",
+    description: "Niche print-on-demand experiments launched across multiple marketplaces.",
+    customContent: (
+      <div className="relative flex h-full w-full flex-col overflow-y-auto p-6 text-white space-y-6">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/60">
+            Side Project
+          </div>
+          <h2 className="text-3xl font-extrabold tracking-wide sm:text-4xl">
+            Print on Demand
+          </h2>
+          <p className="max-w-3xl text-gray-300 leading-relaxed">
+            A small side project where I tested niche-based print-on-demand ideas across multiple marketplaces,
+            built simple design batches, and used short-form content to see what could actually get attention.
+          </p>
+          <div className="mt-1 flex flex-wrap justify-center gap-2">
+            {["Redbubble", "Teespring", "TikTok", "Niche Design Tests", "Side Project"].map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-4 py-1 text-sm font-semibold text-black shadow-md"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+            <div className="aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.1),rgba(255,255,255,0.02)_34%,rgba(0,0,0,0.65)_100%)] p-6">
+              <img
+                src="/images/PrintOnDemand.svg"
+                alt="Print on Demand project"
+                className="h-full w-full object-contain"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-white/45">
+                What I tested
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-white/72">
+                I launched print-on-demand stores on three platforms, including Redbubble and Teespring,
+                using niche-topic design concepts to test demand instead of building one big brand from day one.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-white/45">
+                Growth channel
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-white/72">
+                Traffic experiments were pushed mainly through TikTok, where I tested short-form creative angles
+                to see which designs, niches, and hooks could generate clicks and early interest.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            { label: "Platforms", value: "3 launched" },
+            { label: "Strategy", value: "Niche tests" },
+            { label: "Traffic", value: "TikTok-first" },
+          ].map((item) => (
+            <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <div className="text-[11px] uppercase tracking-[0.28em] text-white/45">{item.label}</div>
+              <div className="mt-2 text-2xl font-semibold text-white">{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+          <div className="text-[11px] uppercase tracking-[0.32em] text-white/45">
+            Context
+          </div>
+          <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/72">
+            This was never meant to be a full-scale company build. It was a side project I ran alongside everything else,
+            mainly to learn how marketplace launches, design iteration, and lightweight content-driven acquisition behave in practice.
+          </p>
+        </div>
+      </div>
+    ),
+  }],
   social: [
     {
       type: "comet",
       title: "mxritttz",
-      image: "/images/chatApp copy.png",
+      image: "/images/Insta4.PNG",
       description: "Personal social profile + content hub.",
+      feedImages: [
+        "/images/Insta4.PNG",
+        "/images/Insta3.PNG",
+        "/images/Insta2.jpg",
+        "/images/Insta1.jpg",
+        "/images/Insta5.PNG",
+      ],
       customContent: (
         <div className="w-full space-y-5 text-white">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -1019,7 +1114,9 @@ const PROJECTS: Record<string, any[]> = {
           </div>
           <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-pink-500/10 via-black/40 to-black/70 p-5">
             <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-full bg-white/10" />
+              <div className="h-16 w-16 overflow-hidden rounded-full border border-white/15 bg-white/10">
+                <img src="/images/InstaPB.PNG" alt="Moritz profile picture" className="h-full w-full object-cover" />
+              </div>
               <div>
                 <div className="text-lg font-semibold">Moritz</div>
                 <div className="text-sm text-white/60">Creative dev • UI experiments</div>
@@ -1031,12 +1128,23 @@ const PROJECTS: Record<string, any[]> = {
               </div>
             </div>
             <div className="mt-5 grid grid-cols-3 gap-3">
-              {Array.from({ length: 6 }).map((_, i) => (
+              {[
+                "/images/Insta1.jpg",
+                "/images/Insta3.PNG",
+                "/images/Insta2.jpg",
+                "/images/Insta4.PNG",
+                "/images/Insta5.PNG",
+              ].map((img) => (
                 <div
-                  key={`ig-preview-${i}`}
-                  className="aspect-square rounded-2xl border border-white/10 bg-white/5"
-                />
+                  key={img}
+                  className="aspect-square overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+                >
+                  <img src={img} alt="Instagram post preview" className="h-full w-full object-cover" />
+                </div>
               ))}
+              <div className="aspect-square rounded-2xl border border-dashed border-white/15 bg-white/[0.03] grid place-items-center text-[11px] uppercase tracking-[0.24em] text-white/40">
+                More
+              </div>
             </div>
           </div>
           <div className="text-sm text-white/60">
@@ -1047,9 +1155,9 @@ const PROJECTS: Record<string, any[]> = {
     },
     {
       type: "comet",
-      title: "Planner",
-      image: "/ChatApp1.png",
-      description: "Social planner app.",
+      title: "More to come soon",
+      image: "/images/Insta5.PNG",
+      description: "More content formats, social concepts, and platform experiments are on the way.",
     },
   ],
   music: [{ type: "comet", title: "SoundWave", image: "/ChatApp1.png", description: "Music streaming app with playlists." }],
@@ -1721,6 +1829,11 @@ export function Projects() {
                         </motion.div>
                       ))}
                     </div>
+                    <div className="flex justify-center pt-1">
+                      <div className="rounded-full border border-white/12 bg-white/[0.05] px-5 py-2 text-xs font-medium uppercase tracking-[0.28em] text-white/55">
+                        More coming soon
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : active === "games" ? (
@@ -1855,7 +1968,7 @@ export function Projects() {
                         className="rounded-3xl border border-white/10 bg-black/40 p-3 flex flex-col gap-3 overflow-y-auto min-h-0 h-full"
                       >
                         <div className="text-xs uppercase tracking-[0.3em] text-white/50">Projects</div>
-                        <div className="grid grid-cols-1 gap-3">
+                        <div className="grid grid-cols-2 gap-3">
                           {PROJECTS.ecommerce.map((project) => (
                             <div key={project.title} className="flex">
                               <button
@@ -1863,24 +1976,43 @@ export function Projects() {
                                   setGridVisible(false);
                                   setSelectedProject(project);
                                 }}
-                                className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 text-left w-1/2 h-1/4 min-h-[140px] flex flex-col"
+                                className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 text-left w-full min-h-[78px] flex flex-col"
                               >
-                                <div className="h-2/5 w-full overflow-hidden">
+                                <div className="h-[38%] w-full overflow-hidden">
                                   <img
                                     src={project.image}
                                     alt={project.title}
                                     className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
                                   />
                                 </div>
-                                <div className="p-3 flex-1">
-                                  <div className="text-white font-semibold">{project.title}</div>
-                                  <div className="text-[11px] text-white/60 mt-1">
-                                    {project.description}
-                                  </div>
+                                <div className="p-2.5 flex-1">
+                                <div className="text-white font-semibold">{project.title}</div>
+                                <div className="text-[11px] text-white/60 mt-1">
+                                  {project.description}
+                                </div>
                                 </div>
                               </button>
                             </div>
                           ))}
+                          <div className="flex">
+                            <div className="relative rounded-2xl overflow-hidden border border-dashed border-white/15 bg-white/[0.04] text-left w-full min-h-[78px] flex flex-col justify-between p-3">
+                              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
+                              <div className="relative">
+                                <div className="text-[10px] uppercase tracking-[0.28em] text-white/45">
+                                  E-Commerce
+                                </div>
+                                <div className="mt-2 text-base font-semibold text-white">
+                                  More coming soon
+                                </div>
+                                <div className="mt-1.5 text-[10px] leading-relaxed text-white/55">
+                                  More store concepts and product experiments are already in progress.
+                                </div>
+                              </div>
+                              <div className="relative mt-2 text-[9px] uppercase tracking-[0.24em] text-white/30">
+                                Next launches
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </motion.div>
 
@@ -1958,7 +2090,13 @@ export function Projects() {
                       {PROJECTS.social.map((p) => (
                         <div key={`${p.title}-story`} className="flex flex-col items-center gap-1">
                           <div className="h-14 w-14 rounded-full p-[2px] bg-gradient-to-tr from-pink-500 via-fuchsia-500 to-amber-400">
-                            <div className="h-full w-full rounded-full bg-black/70" />
+                            <div className="h-full w-full overflow-hidden rounded-full border border-black/40 bg-black/70">
+                              <img
+                                src={p.title === "mxritttz" ? "/images/InstaPB.PNG" : p.image}
+                                alt={`${p.title} story`}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
                           </div>
                           <div className="text-[10px] text-white/60">{p.title}</div>
                         </div>
@@ -1979,13 +2117,32 @@ export function Projects() {
                           className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden text-left w-full hover:border-white/30 hover:bg-white/10 transition"
                         >
                           <div className="flex items-center gap-3 px-4 py-3">
-                            <div className="h-9 w-9 rounded-full bg-white/10" />
+                          <div className="h-9 w-9 overflow-hidden rounded-full border border-white/15 bg-white/10">
+                            <img src="/images/InstaPB.PNG" alt={`${p.title} profile picture`} className="h-full w-full object-cover" />
+                          </div>
                             <div>
                               <div className="text-white font-semibold text-sm">{p.title}</div>
                               <div className="text-[11px] text-white/50">2h ago • @{p.title.toLowerCase()}</div>
                             </div>
                           </div>
-                          <img src={p.image} className="h-40 w-full object-cover" />
+                          {"feedImages" in p && Array.isArray(p.feedImages) ? (
+                            <div className="grid h-56 w-full grid-cols-[1.3fr_0.9fr] gap-[2px] overflow-hidden bg-black/40">
+                              <div className="overflow-hidden">
+                                <img src={p.feedImages[0]} alt={`${p.title} feed preview`} className="h-full w-full object-cover object-center" />
+                              </div>
+                              <div className="grid grid-cols-2 grid-rows-2 gap-[2px]">
+                                {p.feedImages.slice(1, 5).map((img: string) => (
+                                  <div key={img} className="overflow-hidden">
+                                    <img src={img} alt={`${p.title} feed preview`} className="h-full w-full object-cover object-center" />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="grid h-56 w-full place-items-center overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.1),rgba(255,255,255,0.02)_38%,rgba(0,0,0,0.55)_100%)] p-3">
+                              <img src={p.image} alt={p.title} className="h-full w-auto max-w-full object-contain" />
+                            </div>
+                          )}
                           <div className="px-4 py-3 text-white/70 text-sm">
                             {p.description}
                           </div>
@@ -1997,6 +2154,42 @@ export function Projects() {
                           </div>
                         </motion.button>
                       ))}
+                    </div>
+                  </div>
+                </div>
+              ) : active === "websites" ? (
+                <div className="px-4 sm:px-8 pb-20 sm:pb-28 pt-4 sm:pt-6 h-full">
+                  <div className="h-full">
+                    <div className="mb-4 flex items-center gap-3">
+                      {PROJECTS.websites.map((p) => (
+                        <span
+                          key={`${p.title}-badge`}
+                          className="rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm text-white/75"
+                        >
+                          {p.title}
+                        </span>
+                      ))}
+                      <span className="rounded-full border border-dashed border-white/15 bg-white/[0.05] px-4 py-2 text-sm font-medium text-white/60">
+                        More coming soon
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                    {PROJECTS.websites.map((p, i) => (
+                      <motion.div
+                        key={p.title}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                      >
+                        <ProjectCard
+                          project={p}
+                          onClick={() => {
+                            setGridVisible(false);
+                            setSelectedProject(p);
+                          }}
+                        />
+                      </motion.div>
+                    ))}
                     </div>
                   </div>
                 </div>
